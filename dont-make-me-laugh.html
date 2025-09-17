@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Don't Make Me Laugh — FPS</title>
+    <style>
+        /* --- Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-family); background-color: var(--dark-color); color: var(--light-gray); line-height: 1.6; }
+        html { scroll-behavior: smooth; }
+        a { color: var(--primary-color); text-decoration: none; }
+        h1, h2 { font-weight: 700; margin-bottom: 20px; }
+        h2 { font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; border-left: 4px solid var(--primary-color); padding-left: 15px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        /* --- Header --- */
+        .main-header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)); transition: background-color 0.3s ease; }
+        .main-header.scrolled { background-color: var(--dark-color); }
+        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+        .logo span { color: var(--primary-color); }
+        .main-nav ul { list-style: none; display: flex; }
+        .main-nav ul li { margin-left: 25px; }
+        .main-nav ul li a { color: #fff; font-weight: 500; transition: color 0.3s ease; }
+        .main-nav ul li a:hover { color: var(--primary-color); }
+
+        /* --- Hero --- */
+        .hero { height: 60vh; position: relative; overflow: hidden; display: flex; align-items: center; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.1)); }
+        .hero-inner { position: relative; z-index: 2; padding: 0 5%; max-width: 800px; }
+        .hero h1 { font-size: 3rem; }
+        .hero p { margin-top: 10px; max-width: 700px; }
+
+        /* --- Content --- */
+        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .card { background: var(--dark-gray); border: 1px solid #333; border-radius: 8px; padding: 20px; }
+        .meta { color: #bfbfbf; margin-bottom: 15px; }
+        .embed { aspect-ratio: 16/9; width: 100%; border: none; border-radius: 8px; background: #000; }
+        .btn { display: inline-block; margin-top: 16px; padding: 12px 20px; background: var(--primary-color); color: #fff; font-weight: 700; border-radius: 6px; }
+
+        /* --- Footer --- */
+        .main-footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; margin-top: 40px; }
+        .social-links a { margin: 0 15px; font-size: 1.5rem; color: var(--light-gray); transition: color 0.3s ease; }
+        .social-links a:hover { color: var(--primary-color); }
+        .copyright { margin-top: 20px; font-size: 0.9rem; color: #888; }
+
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .hero { height: 50vh; } .hero h1 { font-size: 2.2rem; } }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">FPS</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#films">Productions</a></li>
+                <li><a href="index.html#meetings">Meetings</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#join">Join Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container" style="padding-top: 120px;">
+        <h1>Don't Make Me Laugh</h1>
+        <p class="meta">Binghamton’s own sketch comedy show. New sketches every week.</p>
+        <div class="grid">
+            <div class="card">
+                <div class="meta">2025 • Comedy Show</div>
+                <h2>About the Show</h2>
+                <p>Don't Make Me Laugh is our campus sketch comedy production featuring fast-paced, original skits created, shot, and edited by FPS members.</p>
+                <a href="/index.html#films" class="btn">Back to Productions</a>
+            </div>
+            <div class="card">
+                <h2>Watch</h2>
+                <div class="meta">Latest Episode</div>
+                <div class="embed" aria-label="Video placeholder"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="Vimeo">VM</a>
+        </div>
+        <p class="copyright">© 2025 FPS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet the Eboard — FPS</title>
+    <style>
+        /* --- Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-color: #005A43; /* Deep forest green for accents */
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Eboard Grid --- */
+        .eboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .eboard-card {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .eboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .eboard-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            background: linear-gradient(135deg, var(--primary-color), #004A36);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .eboard-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .eboard-position {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .eboard-bio {
+            font-size: 0.95rem;
+            color: var(--light-gray);
+            line-height: 1.5;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .main-nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            .main-nav ul li {
+                margin: 0 10px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .eboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="main-header" id="mainHeader">
+        <div class="logo">FPS</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#films">Productions</a></li>
+                <li><a href="index.html#meetings">Meetings</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#join">Join Today</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container" style="padding-top: 120px;">
+        <h2>Executive Board</h2>
+        <div class="eboard-grid">
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+            
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+            
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+            
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+            
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+            
+            <div class="eboard-card">
+                <div class="eboard-photo">JD</div>
+                <div class="eboard-name">John Doe</div>
+                <div class="eboard-position">President</div>
+                <div class="eboard-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="Vimeo">VM</a>
+        </div>
+        <p class="copyright">&copy; 2025 FPS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Simple script to add a scrolled class to the header for a background effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
