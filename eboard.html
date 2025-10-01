@@ -187,20 +187,65 @@
         @media (max-width: 768px) {
             .main-header {
                 flex-direction: column;
-                padding: 15px;
+                padding: 12px 16px;
+            }
+            .logo {
+                font-size: 1.4rem;
             }
             .main-nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
+                margin-top: 12px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                gap: 12px;
+                padding-bottom: 6px;
             }
             .main-nav ul li {
-                margin: 0 10px;
+                margin: 0 8px;
             }
             h2 {
                 font-size: 1.8rem;
             }
             .eboard-grid {
                 grid-template-columns: 1fr;
+            }
+            .eboard-card {
+                padding: 20px;
+            }
+            .eboard-photo {
+                width: 120px;
+                height: 120px;
+                font-size: 2.2rem;
+            }
+            .container {
+                padding: 24px 16px;
+            }
+            /* Override inline top padding on first section so content sits closer under smaller header */
+            section.container {
+                padding-top: 90px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .eboard-name {
+                font-size: 1.25rem;
+            }
+            .eboard-position {
+                font-size: 1rem;
+            }
+            .eboard-bio {
+                font-size: 0.95rem;
+            }
+            .eboard-photo {
+                width: 108px;
+                height: 108px;
+                font-size: 2rem;
             }
         }
 

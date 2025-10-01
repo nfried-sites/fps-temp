@@ -16,45 +16,415 @@
             --dark-gray: #222222;
             --font-family: 'Montserrat', sans-serif;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-family); background-color: var(--dark-color); color: var(--light-gray); line-height: 1.6; }
-        html { scroll-behavior: smooth; }
-        a { color: var(--primary-color); text-decoration: none; }
-        h1, h2 { font-weight: 700; margin-bottom: 20px; }
-        h2 { font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; border-left: 4px solid var(--primary-color); padding-left: 15px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
-        /* --- Header --- */
-        .main-header { position: fixed; top: 0; width: 100%; z-index: 1000; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0)); transition: background-color 0.3s ease; }
-        .main-header.scrolled { background-color: var(--dark-color); }
-        .logo { font-size: 1.8rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
-        .logo span { color: var(--primary-color); }
-        .main-nav ul { list-style: none; display: flex; }
-        .main-nav ul li { margin-left: 25px; }
-        .main-nav ul li a { color: #fff; font-weight: 500; transition: color 0.3s ease; }
-        .main-nav ul li a:hover { color: var(--primary-color); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* --- Hero --- */
-        .hero { height: 60vh; position: relative; overflow: hidden; display: flex; align-items: center; }
-        .hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.1)); }
-        .hero-inner { position: relative; z-index: 2; padding: 0 5%; max-width: 800px; }
-        .hero h1 { font-size: 3rem; }
-        .hero p { margin-top: 10px; max-width: 700px; }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
 
-        /* --- Content --- */
-        .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
-        .card { background: var(--dark-gray); border: 1px solid #333; border-radius: 8px; padding: 20px; }
-        .meta { color: #bfbfbf; margin-bottom: 15px; }
-        .embed { aspect-ratio: 16/9; width: 100%; border: none; border-radius: 8px; background: #000; }
-        .btn { display: inline-block; margin-top: 16px; padding: 12px 20px; background: var(--primary-color); color: #fff; font-weight: 700; border-radius: 6px; }
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 70vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            background-image: url('DontMakeMeLaugh.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 5%;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Content Layout --- */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .main-content {
+            background: var(--dark-gray);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta {
+            color: #bfbfbf;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .embed {
+            aspect-ratio: 16/9;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 20px;
+        }
+
+        .episode-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .episode-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episode-list li:last-child {
+            border-bottom: none;
+        }
+
+        .episode-title {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .episode-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: #004A36;
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 90, 67, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 90, 67, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Skits Section --- */
+        .skits-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .skit-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px;
+            background: rgba(0, 90, 67, 0.05);
+            border-radius: 6px;
+            border: 1px solid rgba(0, 90, 67, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .skit-item:hover {
+            background: rgba(0, 90, 67, 0.1);
+            transform: translateX(5px);
+        }
+
+        .skit-thumbnail {
+            position: relative;
+            width: 80px;
+            height: 45px;
+            flex-shrink: 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skit-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            opacity: 0.9;
+        }
+
+        .skit-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .skit-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 4px 0;
+            line-height: 1.3;
+        }
+
+        .skit-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
 
         /* --- Footer --- */
-        .main-footer { text-align: center; padding: 40px 20px; border-top: 1px solid #333; margin-top: 40px; }
-        .social-links a { margin: 0 15px; font-size: 1.5rem; color: var(--light-gray); transition: color 0.3s ease; }
-        .social-links a:hover { color: var(--primary-color); }
-        .copyright { margin-top: 20px; font-size: 0.9rem; color: #888; }
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
 
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .hero { height: 50vh; } .hero h1 { font-size: 2.2rem; } }
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .main-nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            .main-nav ul li {
+                margin: 0 10px;
+            }
+            .hero {
+                height: 50vh;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -66,25 +436,174 @@
                 <li><a href="index.html#films">Productions</a></li>
                 <li><a href="index.html#meetings">Meetings</a></li>
                 <li><a href="index.html#events">Events</a></li>
-                <li><a href="index.html#join">Join Us</a></li>
+                <li><a href="casting.html">Casting</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="container" style="padding-top: 120px;">
-        <h1>Don't Make Me Laugh</h1>
-        <p class="meta">Binghamton’s own sketch comedy show. New sketches every week.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="meta">2025 • Comedy Show</div>
-                <h2>About the Show</h2>
-                <p>Don't Make Me Laugh is our campus sketch comedy production featuring fast-paced, original skits created, shot, and edited by FPS members.</p>
-                <a href="/index.html#films" class="btn">Back to Productions</a>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Don't Make Me Laugh</h1>
+            <p>Binghamton's own sketch comedy show. New sketches every week featuring original content created by FPS members.</p>
+            <div class="hero-meta">
+                <span>📺 Comedy Series</span>
+                <span>📅 2025</span>
+                <span>⏱️ 5-10 min episodes</span>
             </div>
-            <div class="card">
-                <h2>Watch</h2>
-                <div class="meta">Latest Episode</div>
-                <div class="embed" aria-label="Video placeholder"></div>
+            <a href="#watch" class="btn">Watch Latest Episode</a>
+        </div>
+    </section>
+
+    <main class="container" style="padding-top: 40px;">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">12</span>
+                <span class="stat-label">Episodes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">25K</span>
+                <span class="stat-label">Views</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">4.8</span>
+                <span class="stat-label">Rating</span>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <h2>About the Show</h2>
+                <p>Don't Make Me Laugh is FPS's flagship sketch comedy production, featuring fast-paced, original skits created, shot, and edited entirely by our members. Each episode brings fresh humor and creative storytelling to the Binghamton community.</p>
+                
+                <p>Our talented cast and crew work together to produce weekly episodes that cover everything from campus life to social commentary, all with a comedic twist. The show has become a staple of FPS programming and continues to grow in popularity.</p>
+
+                <div id="watch">
+                    <h3>Latest Episode</h3>
+                    <div class="embed">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/D3OymOWtd1Q" 
+                            title="Don't Make Me Laugh - Latest Episode" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p style="margin-top: 15px; color: #ccc; font-size: 0.9rem;">
+                        Episode 12: "Campus Life Chronicles" - A hilarious look at the daily struggles of college students.
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="index.html#films" class="btn btn-outline">← Back to Productions</a>
+                    <a href="casting.html" class="btn">Join the Cast</a>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <h3>Previous Skits</h3>
+                    <div id="previous-skits" class="skits-container">
+                        <!-- Videos will be loaded dynamically -->
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/D3OymOWtd1Q/mqdefault.jpg" alt="Latest Sketch Comedy" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/pIwAJwsVWvI/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/4Clrv_SQSq0/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/nrp-8IC1j-w/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/-RGkzFRs3bY/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/OvFBjU82V4Q/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skit-item">
+                            <div class="skit-thumbnail">
+                                <img src="https://img.youtube.com/vi/o1sjHe2H-0s/mqdefault.jpg" alt="Video Thumbnail" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDMyMCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iMTgwIiBmaWxsPSIjMzMzIi8+Cjx0ZXh0IHg9IjE2MCIgeT0iOTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VGh1bWJuYWlsIFBsYWNlaG9sZGVyPC90ZXh0Pgo8L3N2Zz4K'">
+                                <div class="play-button">▶</div>
+                            </div>
+                            <div class="skit-info">
+                                <h4 class="skit-title">Loading...</h4>
+                                <span class="skit-date">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Production Info</h3>
+                    <div class="meta">
+                        <strong>Genre:</strong> Sketch Comedy<br>
+                        <strong>Format:</strong> Web Series<br>
+                        <strong>Runtime:</strong> 5-10 minutes<br>
+                        <strong>Release:</strong> Weekly<br>
+                        <strong>Status:</strong> Active Production
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Get Involved</h3>
+                    <p style="margin-bottom: 15px; font-size: 0.95rem;">
+                        Want to be part of the show? We're always looking for writers, actors, and crew members.
+                    </p>
+                    <a href="casting.html" class="btn" style="width: 100%; text-align: center; display: block;">View Casting Calls</a>
+                </div>
             </div>
         </div>
     </main>
@@ -102,6 +621,159 @@
         window.addEventListener('scroll', function() {
             const header = document.getElementById('mainHeader');
             if (window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+        });
+
+        // YouTube video data - Real videos from Don't Make Me Laugh channel
+        // TODO: Update these with actual titles and dates from YouTube
+        const youtubeVideos = [
+            {
+                id: 'D3OymOWtd1Q', // Most recent video
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: 'pIwAJwsVWvI',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: '4Clrv_SQSq0',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: 'nrp-8IC1j-w',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: '-RGkzFRs3bY',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: 'OvFBjU82V4Q',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            },
+            {
+                id: 'o1sjHe2H-0s',
+                title: 'Loading...', // Replace with actual title
+                date: 'Loading...'   // Replace with actual upload date
+            }
+        ];
+
+        // YouTube Data API Configuration
+        // ==========================================
+        // SETUP INSTRUCTIONS:
+        // 1. Go to https://console.developers.google.com/
+        // 2. Create a new project or select existing one
+        // 3. Enable "YouTube Data API v3"
+        // 4. Go to "Credentials" → "Create Credentials" → "API Key"
+        // 5. Copy the API key and replace 'YOUR_YOUTUBE_API_KEY' below
+        // 6. (Optional) Restrict the API key to your domain for security
+        // ==========================================
+        const YOUTUBE_API_KEY = 'YOUR_YOUTUBE_API_KEY'; // Replace with your actual API key
+        
+        // Function to fetch video details from YouTube API
+        async function fetchVideoDetails(videoId) {
+            // Check if API key is configured
+            if (YOUTUBE_API_KEY === 'YOUR_YOUTUBE_API_KEY') {
+                console.warn('YouTube API key not configured. Please add your API key to enable automatic fetching.');
+                return {
+                    title: 'API Key Required',
+                    date: 'Configure API Key'
+                };
+            }
+            
+            try {
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.items && data.items.length > 0) {
+                    const video = data.items[0];
+                    return {
+                        title: video.snippet.title,
+                        date: new Date(video.snippet.publishedAt).toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric' 
+                        })
+                    };
+                } else {
+                    console.warn(`No video found for ID: ${videoId}`);
+                    return {
+                        title: 'Video Not Found',
+                        date: 'Unknown'
+                    };
+                }
+            } catch (error) {
+                console.error('Error fetching video details:', error);
+                return {
+                    title: 'Error Loading',
+                    date: 'Try Again'
+                };
+            }
+        }
+
+        // Function to load previous skits with click handlers and real data
+        async function loadPreviousSkits() {
+            const skitsContainer = document.getElementById('previous-skits');
+            
+            // Show loading state
+            console.log('Loading video details from YouTube API...');
+            
+            for (let i = 0; i < youtubeVideos.length; i++) {
+                const video = youtubeVideos[i];
+                const skitItem = skitsContainer.children[i];
+                
+                if (skitItem) {
+                    // Add click handler to open video
+                    skitItem.addEventListener('click', () => {
+                        window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
+                    });
+                    
+                    // Show loading state for this video
+                    const titleElement = skitItem.querySelector('.skit-title');
+                    const dateElement = skitItem.querySelector('.skit-date');
+                    
+                    if (titleElement) titleElement.textContent = 'Loading...';
+                    if (dateElement) dateElement.textContent = 'Loading...';
+                    
+                    // Try to fetch real video details
+                    try {
+                        const videoDetails = await fetchVideoDetails(video.id);
+                        
+                        // Update title and date in the HTML
+                        if (titleElement) titleElement.textContent = videoDetails.title;
+                        if (dateElement) dateElement.textContent = videoDetails.date;
+                        
+                        // Update the data array
+                        youtubeVideos[i].title = videoDetails.title;
+                        youtubeVideos[i].date = videoDetails.date;
+                        
+                        console.log(`Loaded: ${videoDetails.title} (${videoDetails.date})`);
+                    } catch (error) {
+                        console.error(`Error loading details for video ${video.id}:`, error);
+                        
+                        // Show error state
+                        if (titleElement) titleElement.textContent = 'Error Loading';
+                        if (dateElement) dateElement.textContent = 'Try Again';
+                    }
+                }
+            }
+            
+            console.log('Finished loading video details.');
+        }
+
+        // Load videos when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPreviousSkits();
         });
     </script>
 </body>

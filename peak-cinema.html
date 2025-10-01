@@ -6,33 +6,348 @@
     <title>Peak Cinema — FPS</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-        :root { --primary-color:#005A43; --dark-color:#141414; --light-gray:#e0e0e0; --dark-gray:#222; --font-family:'Montserrat',sans-serif; }
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:var(--font-family);background:var(--dark-color);color:var(--light-gray);line-height:1.6}
-        a{color:var(--primary-color);text-decoration:none}
-        h1,h2{font-weight:700;margin-bottom:20px}
-        h2{font-size:2rem;text-transform:uppercase;letter-spacing:2px;border-left:4px solid var(--primary-color);padding-left:15px}
-        .container{max-width:1200px;margin:0 auto;padding:40px 20px}
-        .main-header{position:fixed;top:0;width:100%;z-index:1000;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(0,0,0,.8),rgba(0,0,0,0));transition:background-color .3s}
-        .main-header.scrolled{background:var(--dark-color)}
-        .logo{font-size:1.8rem;font-weight:700;color:#fff;letter-spacing:1px}
-        .logo span{color:var(--primary-color)}
-        .main-nav ul{list-style:none;display:flex}
-        .main-nav ul li{margin-left:25px}
-        .main-nav ul li a{color:#fff;font-weight:500}
-        .main-nav ul li a:hover{color:var(--primary-color)}
-        .hero{height:60vh;position:relative;overflow:hidden;display:flex;align-items:center}
-        .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.8),rgba(0,0,0,.1))}
-        .hero-inner{position:relative;z-index:2;padding:0 5%;max-width:800px}
-        .hero h1{font-size:3rem}
-        .grid{display:grid;grid-template-columns:2fr 1fr;gap:30px}
-        .card{background:var(--dark-gray);border:1px solid #333;border-radius:8px;padding:20px}
-        .meta{color:#bfbfbf;margin-bottom:15px}
-        .embed{aspect-ratio:16/9;width:100%;border:none;border-radius:8px;background:#000}
-        .main-footer{text-align:center;padding:40px 20px;border-top:1px solid #333;margin-top:40px}
-        .social-links a{margin:0 15px;font-size:1.5rem;color:var(--light-gray)}
-        .social-links a:hover{color:var(--primary-color)}
-        @media (max-width:900px){.grid{grid-template-columns:1fr}.hero{height:50vh}.hero h1{font-size:2.2rem}}
+
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 70vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            background-image: url('https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1925&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 5%;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Content Layout --- */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .main-content {
+            background: var(--dark-gray);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta {
+            color: #bfbfbf;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .embed {
+            aspect-ratio: 16/9;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 20px;
+        }
+
+        .episode-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .episode-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episode-list li:last-child {
+            border-bottom: none;
+        }
+
+        .episode-title {
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .episode-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: #004A36;
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 90, 67, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 90, 67, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .main-nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            .main-nav ul li {
+                margin: 0 10px;
+            }
+            .hero {
+                height: 50vh;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -49,19 +364,105 @@
         </nav>
     </header>
 
-    <main class="container" style="padding-top: 120px;">
-        <h1>Peak Cinema</h1>
-        <p class="meta">FPS’s official podcast, hosted by our in-house film experts Tony and Austin.</p>
-        <div class="grid">
-            <div class="card">
-                <div class="meta">2025 • Podcast</div>
-                <h2>About the Podcast</h2>
-                <p>Deep dives on film history, craft, and culture. Weekly episodes featuring segments, interviews, and debates.</p>
-                <a href="/index.html#films" class="meta">Back to Productions</a>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Peak Cinema</h1>
+            <p>FPS's official podcast, hosted by our in-house film experts Tony and Austin. Deep dives on film history, craft, and culture.</p>
+            <div class="hero-meta">
+                <span>🎙️ Podcast</span>
+                <span>📅 2025</span>
+                <span>⏱️ 45-60 min episodes</span>
             </div>
-            <div class="card" id="listen">
-                <h2>Listen</h2>
-                <div class="embed" aria-label="Audio placeholder"></div>
+            <a href="#listen" class="btn">Listen Now</a>
+        </div>
+    </section>
+
+    <main class="container" style="padding-top: 40px;">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">24</span>
+                <span class="stat-label">Episodes</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15K</span>
+                <span class="stat-label">Downloads</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">4.9</span>
+                <span class="stat-label">Rating</span>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <h2>About the Podcast</h2>
+                <p>Peak Cinema is FPS's flagship podcast where our resident film experts Tony and Austin dive deep into the world of cinema. From classic Hollywood to modern indie films, we explore the art, craft, and culture that makes movies magical.</p>
+                
+                <p>Each week, we bring you engaging discussions, insightful interviews with industry professionals, and passionate debates about everything from cinematography techniques to storytelling methods. Whether you're a film student or just a movie lover, Peak Cinema has something for everyone.</p>
+
+                <div id="listen">
+                    <h3>Latest Episode</h3>
+                    <div class="embed" aria-label="Audio placeholder">
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 1.2rem;">
+                            🎧 Audio Player Placeholder
+                        </div>
+                    </div>
+                    <p style="margin-top: 15px; color: #ccc; font-size: 0.9rem;">
+                        Episode 24: "The Art of Cinematography" - A deep dive into visual storytelling with guest cinematographer Sarah Chen.
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <a href="index.html#films" class="btn btn-outline">← Back to Productions</a>
+                    <a href="pitch-production.html" class="btn">Pitch Your Idea</a>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <h3>Recent Episodes</h3>
+                    <ul class="episode-list">
+                        <li>
+                            <span class="episode-title">The Art of Cinematography</span>
+                            <span class="episode-date">Jan 20</span>
+                        </li>
+                        <li>
+                            <span class="episode-title">Indie Film Revolution</span>
+                            <span class="episode-date">Jan 13</span>
+                        </li>
+                        <li>
+                            <span class="episode-title">Classic Hollywood Deep Dive</span>
+                            <span class="episode-date">Jan 6</span>
+                        </li>
+                        <li>
+                            <span class="episode-title">Directing Masterclass</span>
+                            <span class="episode-date">Dec 30</span>
+                        </li>
+                        <li>
+                            <span class="episode-title">Film School vs Real World</span>
+                            <span class="episode-date">Dec 23</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Podcast Info</h3>
+                    <div class="meta">
+                        <strong>Genre:</strong> Film Discussion<br>
+                        <strong>Format:</strong> Audio Podcast<br>
+                        <strong>Runtime:</strong> 45-60 minutes<br>
+                        <strong>Release:</strong> Weekly<br>
+                        <strong>Hosts:</strong> Tony & Austin
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Subscribe</h3>
+                    <p style="margin-bottom: 15px; font-size: 0.95rem;">
+                        Never miss an episode! Subscribe on your favorite podcast platform.
+                    </p>
+                    <a href="#" class="btn" style="width: 100%; text-align: center; display: block;">Subscribe Now</a>
+                </div>
             </div>
         </div>
     </main>

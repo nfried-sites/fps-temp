@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitch Your Production — FPS</title>
+    <style>
+        /* --- Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Form Styles --- */
+        .form-container {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 40px;
+            border: 1px solid #333;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: var(--dark-color);
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: var(--light-gray);
+            font-family: var(--font-family);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #004A36;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .required {
+            color: #ff6b6b;
+        }
+
+        .help-text {
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .main-nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            .main-nav ul li {
+                margin: 0 10px;
+            }
+            .form-container {
+                padding: 25px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">FPS</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#films">Productions</a></li>
+                <li><a href="index.html#meetings">Meetings</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="casting.html">Casting</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container" style="padding-top: 120px;">
+        <h2>Pitch Your Production</h2>
+        <p style="margin-bottom: 40px; font-size: 1.1rem; color: #ccc;">
+            Have an idea for a film, sketch, or podcast? Submit your production pitch to the FPS executive board for review and potential funding.
+        </p>
+
+        <div class="form-container">
+            <form id="pitchForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title <span class="required">*</span></label>
+                    <input type="text" id="projectTitle" name="projectTitle" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectType">Project Type <span class="required">*</span></label>
+                        <select id="projectType" name="projectType" required>
+                            <option value="">Select type...</option>
+                            <option value="short-film">Short Film</option>
+                            <option value="sketch-comedy">Sketch Comedy</option>
+                            <option value="documentary">Documentary</option>
+                            <option value="podcast">Podcast</option>
+                            <option value="music-video">Music Video</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="estimatedDuration">Estimated Duration</label>
+                        <input type="text" id="estimatedDuration" name="estimatedDuration" placeholder="e.g., 5-10 minutes">
+                        <div class="help-text">Approximate length of final production</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDescription">Project Description <span class="required">*</span></label>
+                    <textarea id="projectDescription" name="projectDescription" required placeholder="Describe your project concept, story, and vision..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetAudience">Target Audience</label>
+                    <input type="text" id="targetAudience" name="targetAudience" placeholder="e.g., College students, general audience, film enthusiasts">
+                </div>
+
+                <div class="form-group">
+                    <label for="crewNeeds">Crew Needs</label>
+                    <textarea id="crewNeeds" name="crewNeeds" placeholder="What roles do you need filled? (Director, Cinematographer, Editor, etc.)"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="budgetEstimate">Budget Estimate</label>
+                        <input type="text" id="budgetEstimate" name="budgetEstimate" placeholder="e.g., $200-500">
+                        <div class="help-text">Estimated cost for equipment, props, etc.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeline">Timeline</label>
+                        <input type="text" id="timeline" name="timeline" placeholder="e.g., 4-6 weeks">
+                        <div class="help-text">Expected production timeline</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactInfo">Contact Information <span class="required">*</span></label>
+                    <input type="email" id="contactInfo" name="contactInfo" required placeholder="your.email@binghamton.edu">
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes</label>
+                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Any additional information, special requirements, or questions..."></textarea>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                    <button type="submit" class="btn">Submit Pitch</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="Vimeo">VM</a>
+        </div>
+        <p class="copyright">&copy; 2025 FPS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Form submission
+        document.getElementById('pitchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const pitchData = Object.fromEntries(formData);
+            
+            // Simple validation
+            if (!pitchData.projectTitle || !pitchData.projectType || !pitchData.projectDescription || !pitchData.contactInfo) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Simulate form submission
+            alert('Thank you for your pitch! The FPS executive board will review your submission and get back to you within 1-2 weeks.');
+            
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
+
+

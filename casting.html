@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casting — FPS</title>
+    <style>
+        /* --- Google Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: 25px;
+        }
+
+        .main-nav ul li a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Casting Grid --- */
+        .casting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .casting-card {
+            background-color: var(--dark-gray);
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .casting-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .casting-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .casting-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .casting-type {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .casting-meta {
+            color: #bfbfbf;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .casting-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .casting-requirements {
+            margin-bottom: 20px;
+        }
+
+        .casting-requirements h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .casting-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .casting-requirements li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .casting-requirements li::before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        .casting-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .casting-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .casting-detail strong {
+            color: #fff;
+            margin-bottom: 3px;
+        }
+
+        .casting-detail span {
+            color: #bfbfbf;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: #004A36;
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .no-casting {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .no-casting h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .main-nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            .main-nav ul li {
+                margin: 0 10px;
+            }
+            .casting-grid {
+                grid-template-columns: 1fr;
+            }
+            .casting-details {
+                grid-template-columns: 1fr;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">FPS</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#films">Productions</a></li>
+                <li><a href="index.html#meetings">Meetings</a></li>
+                <li><a href="index.html#events">Events</a></li>
+                <li><a href="pitch-production.html">Pitch</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container" style="padding-top: 120px;">
+        <h2>Open Casting Calls</h2>
+        <p style="margin-bottom: 40px; font-size: 1.1rem; color: #ccc;">
+            Looking to get involved in FPS productions? Check out our current casting opportunities and audition for roles in upcoming projects.
+        </p>
+
+        <div class="casting-grid">
+            <div class="casting-card">
+                <div class="casting-header">
+                    <div>
+                        <div class="casting-title">The Johnny Charisma Show</div>
+                        <div class="casting-meta">Drama Series • 2025</div>
+                    </div>
+                    <div class="casting-type">Lead Role</div>
+                </div>
+                
+                <div class="casting-description">
+                    Seeking a charismatic late-night show host for our upcoming drama series. The character is a failed comedian who gets a second chance at fame.
+                </div>
+
+                <div class="casting-requirements">
+                    <h4>Requirements</h4>
+                    <ul>
+                        <li>Male, 20-30 years old</li>
+                        <li>Strong comedic timing</li>
+                        <li>Experience with improvisation</li>
+                        <li>Available for 3-4 week production</li>
+                    </ul>
+                </div>
+
+                <div class="casting-details">
+                    <div class="casting-detail">
+                        <strong>Audition Date:</strong>
+                        <span>February 15, 2025</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Location:</strong>
+                        <span>Student Union, Room 205</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Time:</strong>
+                        <span>7:00 PM - 9:00 PM</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Contact:</strong>
+                        <span>casting@fps.binghamton.edu</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="mailto:casting@fps.binghamton.edu?subject=Johnny Charisma Audition" class="btn">Apply Now</a>
+                    <a href="#" class="btn btn-outline">View Details</a>
+                </div>
+            </div>
+
+            <div class="casting-card">
+                <div class="casting-header">
+                    <div>
+                        <div class="casting-title">Don't Make Me Laugh</div>
+                        <div class="casting-meta">Sketch Comedy • 2025</div>
+                    </div>
+                    <div class="casting-type">Ensemble</div>
+                </div>
+                
+                <div class="casting-description">
+                    Looking for versatile performers for our weekly sketch comedy show. Multiple characters and comedic styles required.
+                </div>
+
+                <div class="casting-requirements">
+                    <h4>Requirements</h4>
+                    <ul>
+                        <li>Any gender, 18-25 years old</li>
+                        <li>Strong comedic acting skills</li>
+                        <li>Ability to play multiple characters</li>
+                        <li>Commitment to weekly filming</li>
+                    </ul>
+                </div>
+
+                <div class="casting-details">
+                    <div class="casting-detail">
+                        <strong>Audition Date:</strong>
+                        <span>February 20, 2025</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Location:</strong>
+                        <span>Fine Arts Building, Studio A</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Time:</strong>
+                        <span>6:00 PM - 8:00 PM</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Contact:</strong>
+                        <span>casting@fps.binghamton.edu</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="mailto:casting@fps.binghamton.edu?subject=Don't Make Me Laugh Audition" class="btn">Apply Now</a>
+                    <a href="#" class="btn btn-outline">View Details</a>
+                </div>
+            </div>
+
+            <div class="casting-card">
+                <div class="casting-header">
+                    <div>
+                        <div class="casting-title">Peak Cinema Podcast</div>
+                        <div class="casting-meta">Podcast • 2025</div>
+                    </div>
+                    <div class="casting-type">Host/Co-Host</div>
+                </div>
+                
+                <div class="casting-description">
+                    Seeking passionate film enthusiasts to join our podcast team. Host discussions, conduct interviews, and share film knowledge.
+                </div>
+
+                <div class="casting-requirements">
+                    <h4>Requirements</h4>
+                    <ul>
+                        <li>Strong knowledge of film history</li>
+                        <li>Excellent communication skills</li>
+                            <li>Available for weekly recordings</li>
+                        <li>Previous podcast experience preferred</li>
+                    </ul>
+                </div>
+
+                <div class="casting-details">
+                    <div class="casting-detail">
+                        <strong>Application Deadline:</strong>
+                        <span>February 25, 2025</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Location:</strong>
+                        <span>Remote/Studio</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Time:</strong>
+                        <span>Flexible</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Contact:</strong>
+                        <span>casting@fps.binghamton.edu</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="mailto:casting@fps.binghamton.edu?subject=Peak Cinema Podcast Application" class="btn">Apply Now</a>
+                    <a href="#" class="btn btn-outline">View Details</a>
+                </div>
+            </div>
+
+            <div class="casting-card">
+                <div class="casting-header">
+                    <div>
+                        <div class="casting-title">Student Film Festival</div>
+                        <div class="casting-meta">Various Projects • 2025</div>
+                    </div>
+                    <div class="casting-type">Multiple Roles</div>
+                </div>
+                
+                <div class="casting-description">
+                    Multiple short film projects seeking actors for our upcoming student film festival. Various genres and character types.
+                </div>
+
+                <div class="casting-requirements">
+                    <h4>Requirements</h4>
+                    <ul>
+                        <li>Open to all experience levels</li>
+                        <li>Flexible schedule</li>
+                        <li>Commitment to project completion</li>
+                        <li>Willingness to work with student directors</li>
+                    </ul>
+                </div>
+
+                <div class="casting-details">
+                    <div class="casting-detail">
+                        <strong>Audition Period:</strong>
+                        <span>March 1-15, 2025</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Location:</strong>
+                        <span>Various Campus Locations</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Time:</strong>
+                        <span>By Appointment</span>
+                    </div>
+                    <div class="casting-detail">
+                        <strong>Contact:</strong>
+                        <span>festival@fps.binghamton.edu</span>
+                    </div>
+                </div>
+
+                <div>
+                    <a href="mailto:festival@fps.binghamton.edu?subject=Film Festival Audition" class="btn">Apply Now</a>
+                    <a href="#" class="btn btn-outline">View Details</a>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; padding: 30px; background-color: var(--dark-gray); border-radius: 8px; border: 1px solid #333;">
+            <h3 style="margin-bottom: 15px; color: #fff;">Don't See What You're Looking For?</h3>
+            <p style="margin-bottom: 20px; color: #ccc;">
+                We're always looking for new talent! Submit your information to our talent database and we'll notify you when new opportunities arise.
+            </p>
+            <a href="mailto:casting@fps.binghamton.edu?subject=Talent Database Submission" class="btn">Join Talent Database</a>
+        </div>
+    </section>
+    
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="Vimeo">VM</a>
+        </div>
+        <p class="copyright">&copy; 2025 FPS. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
