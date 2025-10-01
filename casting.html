@@ -82,6 +82,9 @@
             color: #fff;
             letter-spacing: 1px;
         }
+        .logo span {
+            color: var(--primary-color);
+        }
 
         .main-nav ul {
             list-style: none;
@@ -99,6 +102,47 @@
         }
 
         .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Dropdown Menu --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dark-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            border: 1px solid #333;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: var(--light-gray);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover > a {
             color: var(--primary-color);
         }
 
@@ -291,6 +335,21 @@
             .main-nav ul li {
                 margin: 0 10px;
             }
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding: 5px 0;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .dropdown-content a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
             .casting-grid {
                 grid-template-columns: 1fr;
             }
@@ -305,15 +364,24 @@
 </head>
 <body>
     <header class="main-header" id="mainHeader">
-        <div class="logo">FPS</div>
+        <div class="logo">Film & Production Society</div>
         <nav class="main-nav">
             <ul>
                 <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#films">Productions</a></li>
+                <li class="dropdown">
+                    <a href="index.html#films">Productions</a>
+                    <div class="dropdown-content">
+                        <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
+                        <a href="peak-cinema.html">Peak Cinema</a>
+                    </div>
+                </li>
+                
                 <li><a href="index.html#meetings">Meetings</a></li>
                 <li><a href="index.html#events">Events</a></li>
                 <li><a href="pitch-production.html">Pitch</a></li>
-                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="casting.html">Casting</a></li>
+                <li><a href="eboard.html">Eboard</a></li>               
+                <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
     </header>
@@ -325,54 +393,6 @@
         </p>
 
         <div class="casting-grid">
-            <div class="casting-card">
-                <div class="casting-header">
-                    <div>
-                        <div class="casting-title">The Johnny Charisma Show</div>
-                        <div class="casting-meta">Drama Series • 2025</div>
-                    </div>
-                    <div class="casting-type">Lead Role</div>
-                </div>
-                
-                <div class="casting-description">
-                    Seeking a charismatic late-night show host for our upcoming drama series. The character is a failed comedian who gets a second chance at fame.
-                </div>
-
-                <div class="casting-requirements">
-                    <h4>Requirements</h4>
-                    <ul>
-                        <li>Male, 20-30 years old</li>
-                        <li>Strong comedic timing</li>
-                        <li>Experience with improvisation</li>
-                        <li>Available for 3-4 week production</li>
-                    </ul>
-                </div>
-
-                <div class="casting-details">
-                    <div class="casting-detail">
-                        <strong>Audition Date:</strong>
-                        <span>February 15, 2025</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Location:</strong>
-                        <span>Student Union, Room 205</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Time:</strong>
-                        <span>7:00 PM - 9:00 PM</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Contact:</strong>
-                        <span>casting@fps.binghamton.edu</span>
-                    </div>
-                </div>
-
-                <div>
-                    <a href="mailto:casting@fps.binghamton.edu?subject=Johnny Charisma Audition" class="btn">Apply Now</a>
-                    <a href="#" class="btn btn-outline">View Details</a>
-                </div>
-            </div>
-
             <div class="casting-card">
                 <div class="casting-header">
                     <div>
@@ -417,103 +437,7 @@
 
                 <div>
                     <a href="mailto:casting@fps.binghamton.edu?subject=Don't Make Me Laugh Audition" class="btn">Apply Now</a>
-                    <a href="#" class="btn btn-outline">View Details</a>
-                </div>
-            </div>
-
-            <div class="casting-card">
-                <div class="casting-header">
-                    <div>
-                        <div class="casting-title">Peak Cinema Podcast</div>
-                        <div class="casting-meta">Podcast • 2025</div>
-                    </div>
-                    <div class="casting-type">Host/Co-Host</div>
-                </div>
-                
-                <div class="casting-description">
-                    Seeking passionate film enthusiasts to join our podcast team. Host discussions, conduct interviews, and share film knowledge.
-                </div>
-
-                <div class="casting-requirements">
-                    <h4>Requirements</h4>
-                    <ul>
-                        <li>Strong knowledge of film history</li>
-                        <li>Excellent communication skills</li>
-                            <li>Available for weekly recordings</li>
-                        <li>Previous podcast experience preferred</li>
-                    </ul>
-                </div>
-
-                <div class="casting-details">
-                    <div class="casting-detail">
-                        <strong>Application Deadline:</strong>
-                        <span>February 25, 2025</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Location:</strong>
-                        <span>Remote/Studio</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Time:</strong>
-                        <span>Flexible</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Contact:</strong>
-                        <span>casting@fps.binghamton.edu</span>
-                    </div>
-                </div>
-
-                <div>
-                    <a href="mailto:casting@fps.binghamton.edu?subject=Peak Cinema Podcast Application" class="btn">Apply Now</a>
-                    <a href="#" class="btn btn-outline">View Details</a>
-                </div>
-            </div>
-
-            <div class="casting-card">
-                <div class="casting-header">
-                    <div>
-                        <div class="casting-title">Student Film Festival</div>
-                        <div class="casting-meta">Various Projects • 2025</div>
-                    </div>
-                    <div class="casting-type">Multiple Roles</div>
-                </div>
-                
-                <div class="casting-description">
-                    Multiple short film projects seeking actors for our upcoming student film festival. Various genres and character types.
-                </div>
-
-                <div class="casting-requirements">
-                    <h4>Requirements</h4>
-                    <ul>
-                        <li>Open to all experience levels</li>
-                        <li>Flexible schedule</li>
-                        <li>Commitment to project completion</li>
-                        <li>Willingness to work with student directors</li>
-                    </ul>
-                </div>
-
-                <div class="casting-details">
-                    <div class="casting-detail">
-                        <strong>Audition Period:</strong>
-                        <span>March 1-15, 2025</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Location:</strong>
-                        <span>Various Campus Locations</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Time:</strong>
-                        <span>By Appointment</span>
-                    </div>
-                    <div class="casting-detail">
-                        <strong>Contact:</strong>
-                        <span>festival@fps.binghamton.edu</span>
-                    </div>
-                </div>
-
-                <div>
-                    <a href="mailto:festival@fps.binghamton.edu?subject=Film Festival Audition" class="btn">Apply Now</a>
-                    <a href="#" class="btn btn-outline">View Details</a>
+                    <a href="dont-make-me-laugh.html" class="btn btn-outline">View Details</a>
                 </div>
             </div>
         </div>

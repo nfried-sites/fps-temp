@@ -82,6 +82,9 @@
             color: #fff;
             letter-spacing: 1px;
         }
+        .logo span {
+            color: var(--primary-color);
+        }
 
         .main-nav ul {
             list-style: none;
@@ -99,6 +102,47 @@
         }
 
         .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Dropdown Menu --- */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dark-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            border: 1px solid #333;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: var(--light-gray);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover > a {
             color: var(--primary-color);
         }
 
@@ -235,6 +279,21 @@
             .main-nav ul li {
                 margin: 0 10px;
             }
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding: 5px 0;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .dropdown-content a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
             .form-container {
                 padding: 25px;
             }
@@ -249,15 +308,24 @@
 </head>
 <body>
     <header class="main-header" id="mainHeader">
-        <div class="logo">FPS</div>
+        <div class="logo">Film & Production Society</div>
         <nav class="main-nav">
             <ul>
                 <li><a href="index.html#home">Home</a></li>
-                <li><a href="index.html#films">Productions</a></li>
+                <li class="dropdown">
+                    <a href="index.html#films">Productions</a>
+                    <div class="dropdown-content">
+                        <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
+                        <a href="peak-cinema.html">Peak Cinema</a>
+                    </div>
+                </li>
+                
                 <li><a href="index.html#meetings">Meetings</a></li>
                 <li><a href="index.html#events">Events</a></li>
+                <li><a href="pitch-production.html">Pitch</a></li>
                 <li><a href="casting.html">Casting</a></li>
-                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="eboard.html">Eboard</a></li>               
+                <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
     </header>
