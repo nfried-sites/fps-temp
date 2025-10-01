@@ -844,13 +844,20 @@
         }
 
         // Auto-advance slideshow every 5 seconds
-        setInterval(nextSlide, 5000);
+        let slideshowInterval = setInterval(nextSlide, 5000);
+
+        // Function to reset the auto-advance timer
+        function resetSlideshowTimer() {
+            clearInterval(slideshowInterval);
+            slideshowInterval = setInterval(nextSlide, 5000);
+        }
 
         // Add click handlers to navigation dots
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentSlide = index;
                 showSlide(currentSlide);
+                resetSlideshowTimer(); // Reset the auto-timing when user clicks
             });
         });
 
