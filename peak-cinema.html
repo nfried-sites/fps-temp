@@ -260,6 +260,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .episode-list li:hover {
+            background-color: rgba(0, 90, 67, 0.1);
+            color: var(--primary-color);
         }
 
         .episode-list li:last-child {
@@ -274,6 +281,34 @@
         .episode-date {
             color: #999;
             font-size: 0.9rem;
+        }
+
+        .season-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .season-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .season-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .season-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
         }
 
         .btn {
@@ -489,28 +524,13 @@
 
             <div class="sidebar">
                 <div class="card">
-                    <h3>Recent Episodes</h3>
-                    <ul class="episode-list">
-                        <li>
-                            <span class="episode-title">The Art of Cinematography</span>
-                            <span class="episode-date">Jan 20</span>
-                        </li>
-                        <li>
-                            <span class="episode-title">Indie Film Revolution</span>
-                            <span class="episode-date">Jan 13</span>
-                        </li>
-                        <li>
-                            <span class="episode-title">Classic Hollywood Deep Dive</span>
-                            <span class="episode-date">Jan 6</span>
-                        </li>
-                        <li>
-                            <span class="episode-title">Directing Masterclass</span>
-                            <span class="episode-date">Dec 30</span>
-                        </li>
-                        <li>
-                            <span class="episode-title">Film School vs Real World</span>
-                            <span class="episode-date">Dec 23</span>
-                        </li>
+                    <h3>Episodes</h3>
+                    <div class="season-filters" style="margin-bottom: 15px;">
+                        <button class="season-btn active" data-season="2">Season 2</button>
+                        <button class="season-btn" data-season="1">Season 1</button>
+                    </div>
+                    <ul id="previous-episodes" class="episode-list">
+                        <!-- Episodes will be loaded dynamically from VIDEO_LIST -->
                     </ul>
                 </div>
 
@@ -549,6 +569,154 @@
         window.addEventListener('scroll', function(){
             const h=document.getElementById('mainHeader');
             if (window.scrollY>50) h.classList.add('scrolled'); else h.classList.remove('scrolled');
+        });
+
+        // ===== EASY UPDATE AREA =====
+        // Add new episodes here - just copy the format and update the details
+        // id: YouTube URL or video ID, title: episode title, date: release date, season: season number
+        const VIDEO_LIST = [
+            { id: 'https://www.youtube.com/watch?v=example1', title: "The Art of Cinematography", date: 'Jan 20, 2025', season: 2 },
+            { id: 'https://www.youtube.com/watch?v=example2', title: "Indie Film Revolution", date: 'Jan 13, 2025', season: 2 },
+            { id: 'https://www.youtube.com/watch?v=example3', title: "Classic Hollywood Deep Dive", date: 'Jan 6, 2025', season: 2 },
+            { id: 'https://www.youtube.com/watch?v=example4', title: "Directing Masterclass", date: 'Dec 30, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=example5', title: "Film School vs Real World", date: 'Dec 23, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=example6', title: "The Future of Film", date: 'Dec 16, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=example7', title: "Sound Design Secrets", date: 'Dec 9, 2024', season: 1 }
+        ];
+
+        // Helper: extract YouTube ID from URL or return as-is if already an ID
+        function extractYouTubeId(str) {
+            if (!str) return '';
+            if (!/\s/.test(str) && !str.includes('/')) return str;
+            const m = str.match(/[?&]v=([a-zA-Z0-9_-]{6,})/) || str.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+            return m ? m[1] : str;
+        }
+
+        const youtubeVideos = VIDEO_LIST.map(v => ({
+            id: extractYouTubeId(v.id),
+            title: v.title || 'Untitled',
+            date: v.date || '',
+            season: v.season || 1,
+            thumbnail: `https://img.youtube.com/vi/${extractYouTubeId(v.id)}/mqdefault.jpg`
+        }));
+
+        let currentSeasonFilter = '2';
+        
+        // Helper: choose label and transform 'Episode' tokens to 'Episode' or 'Video'
+        function determineContentLabel(title) {
+            const lower = (title || '').toLowerCase();
+            const nonEpisodeKeywords = ['video', 'clip', 'trailer', 'teaser', 'preview', 'behind the scenes', 'bloopers'];
+            return nonEpisodeKeywords.some(keyword => lower.includes(keyword)) ? 'Video' : 'Episode';
+        }
+
+        // Helper: replace 'Episode' tokens in text with the determined label
+        function replaceEpisodeToken(text, label) {
+            if (!text) return text;
+            return text.replace(/\bEpisode\b/gi, label);
+        }
+
+        // Helper: pluralize label
+        function pluralizeLabel(label) {
+            return label === 'Episode' ? 'Episodes' : 'Videos';
+        }
+
+        // Update static labels throughout the page
+        function updateStaticLabels(label) {
+            // Update hero meta
+            const heroMeta = document.querySelector('.hero-meta span:first-child');
+            if (heroMeta) heroMeta.textContent = `🎙️ ${label}`;
+            
+            // Update CTA button
+            const ctaButton = document.querySelector('#listen .btn');
+            if (ctaButton) ctaButton.textContent = `Listen to Latest ${label}`;
+            
+            // Update section heading
+            const sectionHeading = document.querySelector('#listen h3');
+            if (sectionHeading) sectionHeading.textContent = `Latest ${label}`;
+            
+            // Update iframe title
+            const iframe = document.querySelector('#listen iframe');
+            if (iframe) iframe.title = `Latest ${label} - Peak Cinema`;
+            
+            // Update description paragraph
+            const description = document.querySelector('#listen p');
+            if (description) {
+                const currentText = description.textContent;
+                description.textContent = currentText.replace(/\bEpisode\b/g, label);
+            }
+            
+            // Update stats label
+            const statsLabel = document.querySelector('.stat-label');
+            if (statsLabel) statsLabel.textContent = pluralizeLabel(label);
+        }
+
+        // Function to filter episodes by season
+        function filterEpisodesBySeason(season) {
+            currentSeasonFilter = season;
+            
+            // Update active button
+            document.querySelectorAll('.season-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-season="${season}"]`).classList.add('active');
+            
+            // Reload episodes with filter
+            loadPreviousEpisodes();
+        }
+
+        // Function to load previous episodes with click handlers and real data
+        async function loadPreviousEpisodes() {
+            const episodesContainer = document.getElementById('previous-episodes');
+            
+            // Filter videos based on current season filter
+            const filteredVideos = youtubeVideos.filter(video => video.season.toString() === currentSeasonFilter);
+            
+            // Rebuild the list from the filtered array
+            episodesContainer.innerHTML = '';
+            for (let i = 0; i < filteredVideos.length; i++) {
+                const video = filteredVideos[i];
+                const item = document.createElement('li');
+                item.innerHTML = `
+                    <span class="episode-title"></span>
+                    <span class="episode-date"></span>
+                `;
+                item.addEventListener('click', () => {
+                    window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
+                });
+                episodesContainer.appendChild(item);
+
+                const titleElement = item.querySelector('.episode-title');
+                const dateElement = item.querySelector('.episode-date');
+                const label = determineContentLabel(video.title);
+                if (titleElement) titleElement.textContent = replaceEpisodeToken(video.title, label);
+                if (dateElement) dateElement.textContent = video.date;
+            }
+
+            // Always update hero embed from the latest episode (first in original array)
+            if (youtubeVideos.length > 0) {
+                const latestVideo = youtubeVideos[0];
+                const embed = document.querySelector('#listen .embed');
+                if (embed) {
+                    const label = determineContentLabel(latestVideo.title);
+                    embed.innerHTML = `<iframe src="https://www.youtube.com/embed/${latestVideo.id}" class="embed" title="Latest ${label} - Peak Cinema" allowfullscreen></iframe>`;
+                }
+                updateStaticLabels(determineContentLabel(latestVideo.title));
+            }
+        }
+
+        // Load episodes when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set sensible defaults before API returns
+            updateStaticLabels('Episode');
+            loadPreviousEpisodes();
+            
+            // Add event listeners for season filter buttons
+            document.querySelectorAll('.season-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const season = btn.getAttribute('data-season');
+                    filterEpisodesBySeason(season);
+                });
+            });
         });
     </script>
 </body>

@@ -350,7 +350,7 @@
             font-size: 1rem;
         }
 
-        /* --- Weekly Calendar --- */
+        /* --- Google Calendar Integration --- */
         .calendar-container {
             margin-top: 30px;
         }
@@ -360,32 +360,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-        }
-
-        .calendar-nav {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
-        }
-
-        .calendar-nav-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .calendar-nav-btn:hover {
-            background: #004A36;
-        }
-
-        .calendar-nav-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
         }
 
         .calendar-title {
@@ -394,69 +370,41 @@
             color: white;
         }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: auto repeat(2, 1fr);
-            gap: 1px;
-            background: #444;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .calendar-day {
-            background: var(--dark-color);
-            padding: 15px 8px;
-            text-align: center;
-            min-height: 80px;
+        .calendar-actions {
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            position: relative;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .calendar-day-header {
+        .calendar-btn {
             background: var(--primary-color);
             color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
             font-weight: 600;
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
         }
 
-        .day-number {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .day-content {
-            font-size: 0.8rem;
-            color: #ccc;
-        }
-
-        .meeting-indicator {
-            background: var(--primary-color);
+        .calendar-btn:hover {
+            background: #004A36;
+            transform: translateY(-1px);
             color: white;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin-top: 5px;
         }
 
-        .today {
-            background: rgba(0, 90, 67, 0.2);
-            border: 2px solid var(--primary-color);
+        .google-calendar-embed {
+            background: var(--dark-gray);
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .other-month {
-            color: #666;
+        .google-calendar-embed iframe {
+            border-radius: 6px;
+            background: white;
         }
 
         /* --- Events Section --- */
@@ -527,6 +475,28 @@
             color: var(--primary-color);
             font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        .event-actions {
+            margin-top: 15px;
+        }
+
+        .add-to-calendar-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .add-to-calendar-btn:hover {
+            background: #004A36;
+            transform: translateY(-1px);
+            color: white;
         }
 
         .about-content {
@@ -625,6 +595,19 @@
             }
             .about-content {
                 flex-direction: column;
+            }
+            .calendar-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .calendar-actions {
+                margin-top: 10px;
+            }
+            .google-calendar-embed {
+                padding: 10px;
+            }
+            .google-calendar-embed iframe {
+                height: 300px;
             }
         }
 
@@ -726,27 +709,33 @@
             
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <div class="calendar-nav">
-                        <button class="calendar-nav-btn" id="prevWeek">‹ Previous</button>
-                        <button class="calendar-nav-btn" id="nextWeek">Next ›</button>
+                    <div class="calendar-title">FPS Club Calendar</div>
+                    <div class="calendar-actions">
+                        <a href="https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York" 
+                           target="_blank" 
+                           class="btn calendar-btn">
+                            View Full Calendar
+                        </a>
+                        <a href="https://calendar.google.com/calendar/ical/c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com/public/basic.ics" 
+                           class="btn calendar-btn">
+                            Subscribe to Calendar
+                        </a>
                     </div>
-                    <div class="calendar-title" id="calendarTitle">January 2025</div>
                 </div>
                 
-                <div class="calendar-grid">
-                    <div class="calendar-day-header">Sun</div>
-                    <div class="calendar-day-header">Mon</div>
-                    <div class="calendar-day-header">Tue</div>
-                    <div class="calendar-day-header">Wed</div>
-                    <div class="calendar-day-header">Thu</div>
-                    <div class="calendar-day-header">Fri</div>
-                    <div class="calendar-day-header">Sat</div>
-                    <!-- Calendar days will be populated by JavaScript -->
+                <div class="google-calendar-embed">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York" 
+                            style="border: 0" 
+                            width="100%" 
+                            height="400" 
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
                 </div>
             </div>
             
             <div class="meeting-info">
-                <p><strong>When:</strong> Every Tuesday at 7:00 PM</p>
+                <p><strong>When:</strong> Every Wednesday at 7:00 PM</p>
                 <p><strong>Where:</strong> Student Union Building, Room 205</p>
             </div>
         </div>
@@ -765,6 +754,13 @@
                         <h3>Film Screening Night</h3>
                         <p>Join us for a screening of student films and industry favorites. Pizza and drinks provided!</p>
                         <span class="event-time">7:00 PM - 10:00 PM</span>
+                        <div class="event-actions">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Film%20Screening%20Night&dates=20250121T190000/20250121T220000&details=Join%20us%20for%20a%20screening%20of%20student%20films%20and%20industry%20favorites.%20Pizza%20and%20drinks%20provided!&location=Student%20Union%20Building%2C%20Room%20205" 
+                               target="_blank" 
+                               class="add-to-calendar-btn">
+                                Add to Google Calendar
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="event-card">
@@ -776,6 +772,13 @@
                         <h3>48-Hour Film Challenge</h3>
                         <p>Create a complete short film in just 48 hours! Teams will be formed at the event kickoff.</p>
                         <span class="event-time">All Weekend</span>
+                        <div class="event-actions">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=48-Hour%20Film%20Challenge&dates=20250215T000000/20250217T000000&details=Create%20a%20complete%20short%20film%20in%20just%2048%20hours!%20Teams%20will%20be%20formed%20at%20the%20event%20kickoff.&location=Student%20Union%20Building%2C%20Room%20205" 
+                               target="_blank" 
+                               class="add-to-calendar-btn">
+                                Add to Google Calendar
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="event-card">
@@ -787,6 +790,13 @@
                         <h3>Guest Speaker: Local Director</h3>
                         <p>Meet and learn from a professional filmmaker about breaking into the industry.</p>
                         <span class="event-time">6:30 PM - 8:00 PM</span>
+                        <div class="event-actions">
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Guest%20Speaker%3A%20Local%20Director&dates=20250308T183000/20250308T200000&details=Meet%20and%20learn%20from%20a%20professional%20filmmaker%20about%20breaking%20into%20the%20industry.&location=Student%20Union%20Building%2C%20Room%20205" 
+                               target="_blank" 
+                               class="add-to-calendar-btn">
+                                Add to Google Calendar
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -796,17 +806,22 @@
     <section id="join">
         
         <div class="container">
-            <h2>Become a Member</h2>
-            <p>Ready to create? We welcome students of all skill levels. Whether you're a cinema major or have never touched a camera, there's a role for you here. Join us to learn, collaborate, and make movies.</p>
-            <a href="" class="btn">Join Today</a>
+            <h2>Join Our Weekly Newsletter</h2>
+            <p>Stay updated with FPS news, upcoming events, and production opportunities. Get the latest updates delivered to your inbox every Monday.</p>
+            <a href="mailto:fps@binghamton.edu?subject=Newsletter Subscription" class="btn">Subscribe to Newsletter</a>
+            <div style="margin-top: 30px; padding: 20px; background-color: var(--dark-gray); border-radius: 8px; border: 1px solid #333;">
+                <h3 style="margin-bottom: 15px; color: #fff;">Want to Join the Club?</h3>
+                <p style="margin-bottom: 15px; color: #ccc;">Come to our next meeting! We welcome students of all skill levels. Whether you're a cinema major or have never touched a camera, there's a role for you here.</p>
+                <p style="color: var(--primary-color); font-weight: 600;">Every Tuesday at 7:00 PM • Student Union Building, Room 205</p>
+            </div>
         </div>
     </section>
     
     <footer class="main-footer">
         <div class="social-links">
-            <a href="#" aria-label="Instagram">IG</a>
-            <a href="#" aria-label="YouTube">YT</a>
-            <a href="#" aria-label="Vimeo">VM</a>
+            <a href="https://www.instagram.com/binghamtonfps/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@FPSBINGHAMTON" aria-label="YouTube" target="_blank" rel="noopener noreferrer">YT</a>
+            <a href="https://discord.com/invite/2mpbGwKZBn" aria-label="Discord" target="_blank" rel="noopener noreferrer">DS</a>
         </div>
         <p class="copyright">&copy; 2025 Binghamton University Film & Production Society. All Rights Reserved.</p>
     </footer>
@@ -861,98 +876,7 @@
             });
         });
 
-        // Calendar functionality
-        let currentDate = new Date();
-        const calendarTitle = document.getElementById('calendarTitle');
-        const prevWeekBtn = document.getElementById('prevWeek');
-        const nextWeekBtn = document.getElementById('nextWeek');
-
-        function updateCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                'July', 'August', 'September', 'October', 'November', 'December'];
-            
-            calendarTitle.textContent = `${monthNames[month]} ${year}`;
-            
-            // Update calendar grid with current week
-            updateCalendarGrid();
-        }
-
-        function updateCalendarGrid() {
-            const calendarGrid = document.querySelector('.calendar-grid');
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            
-            // Get the start of the current week (Sunday)
-            const startOfWeek = new Date(currentDate);
-            const day = startOfWeek.getDay();
-            startOfWeek.setDate(startOfWeek.getDate() - day);
-            
-            // Clear existing calendar days (keep headers)
-            const existingDays = calendarGrid.querySelectorAll('.calendar-day');
-            existingDays.forEach(day => day.remove());
-            
-            // Generate two weeks (14 days)
-            for (let week = 0; week < 2; week++) {
-                for (let day = 0; day < 7; day++) {
-                    const date = new Date(startOfWeek);
-                    date.setDate(startOfWeek.getDate() + (week * 7) + day);
-                    
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'calendar-day';
-                    
-                    // Check if this is a different month
-                    if (date.getMonth() !== month) {
-                        dayElement.classList.add('other-month');
-                    }
-                    
-                    // Check if this is today
-                    const today = new Date();
-                    if (date.toDateString() === today.toDateString()) {
-                        dayElement.classList.add('today');
-                    }
-                    
-                    // Add day number
-                    const dayNumber = document.createElement('div');
-                    dayNumber.className = 'day-number';
-                    dayNumber.textContent = date.getDate();
-                    dayElement.appendChild(dayNumber);
-                    
-                    // Add meeting indicator for Tuesdays
-                    if (date.getDay() === 3) {
-                        const meetingIndicator = document.createElement('div');
-                        meetingIndicator.className = 'meeting-indicator';
-                        meetingIndicator.textContent = 'Meeting';
-                        dayElement.appendChild(meetingIndicator);
-                        
-                        const dayContent = document.createElement('div');
-                        dayContent.className = 'day-content';
-                        dayContent.textContent = '7:00 PM';
-                        dayElement.appendChild(dayContent);
-                    }
-                    
-                    calendarGrid.appendChild(dayElement);
-                }
-            }
-        }
-
-        function goToPreviousWeek() {
-            currentDate.setDate(currentDate.getDate() - 7);
-            updateCalendar();
-        }
-
-        function goToNextWeek() {
-            currentDate.setDate(currentDate.getDate() + 7);
-            updateCalendar();
-        }
-
-        // Add event listeners for calendar navigation
-        prevWeekBtn.addEventListener('click', goToPreviousWeek);
-        nextWeekBtn.addEventListener('click', goToNextWeek);
-
-        // Initialize calendar
-        updateCalendar();
+        // Google Calendar integration is now handled via iframe embed
     </script>
 </body>
 </html>

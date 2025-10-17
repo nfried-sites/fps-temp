@@ -336,84 +336,22 @@
             Have an idea for a film, sketch, or podcast? Submit your production pitch to the FPS executive board for review and potential funding.
         </p>
 
-        <div class="form-container">
-            <form id="pitchForm">
-                <div class="form-group">
-                    <label for="projectTitle">Project Title <span class="required">*</span></label>
-                    <input type="text" id="projectTitle" name="projectTitle" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="projectType">Project Type <span class="required">*</span></label>
-                        <select id="projectType" name="projectType" required>
-                            <option value="">Select type...</option>
-                            <option value="short-film">Short Film</option>
-                            <option value="sketch-comedy">Sketch Comedy</option>
-                            <option value="documentary">Documentary</option>
-                            <option value="podcast">Podcast</option>
-                            <option value="music-video">Music Video</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="estimatedDuration">Estimated Duration</label>
-                        <input type="text" id="estimatedDuration" name="estimatedDuration" placeholder="e.g., 5-10 minutes">
-                        <div class="help-text">Approximate length of final production</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="projectDescription">Project Description <span class="required">*</span></label>
-                    <textarea id="projectDescription" name="projectDescription" required placeholder="Describe your project concept, story, and vision..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="targetAudience">Target Audience</label>
-                    <input type="text" id="targetAudience" name="targetAudience" placeholder="e.g., College students, general audience, film enthusiasts">
-                </div>
-
-                <div class="form-group">
-                    <label for="crewNeeds">Crew Needs</label>
-                    <textarea id="crewNeeds" name="crewNeeds" placeholder="What roles do you need filled? (Director, Cinematographer, Editor, etc.)"></textarea>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="budgetEstimate">Budget Estimate</label>
-                        <input type="text" id="budgetEstimate" name="budgetEstimate" placeholder="e.g., $200-500">
-                        <div class="help-text">Estimated cost for equipment, props, etc.</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="timeline">Timeline</label>
-                        <input type="text" id="timeline" name="timeline" placeholder="e.g., 4-6 weeks">
-                        <div class="help-text">Expected production timeline</div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="contactInfo">Contact Information <span class="required">*</span></label>
-                    <input type="email" id="contactInfo" name="contactInfo" required placeholder="your.email@binghamton.edu">
-                </div>
-
-                <div class="form-group">
-                    <label for="additionalNotes">Additional Notes</label>
-                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Any additional information, special requirements, or questions..."></textarea>
-                </div>
-
-                <div style="margin-top: 30px;">
-                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
-                    <button type="submit" class="btn">Submit Pitch</button>
-                </div>
-            </form>
+        <div class="form-container" style="text-align: center;">
+            <p style="margin-bottom: 20px; color: #ddd;">
+                We now accept production pitches through Google Forms.
+            </p>
+            <a class="btn" href="https://docs.google.com/forms/d/REPLACE_WITH_YOUR_FORM_ID/viewform" target="_blank" rel="noopener noreferrer">
+                Open Pitch Google Form
+            </a>
+            <div class="help-text" style="margin-top: 15px;">The form will open in a new tab.</div>
         </div>
     </section>
     
     <footer class="main-footer">
         <div class="social-links">
-            <a href="#" aria-label="Instagram">IG</a>
-            <a href="#" aria-label="YouTube">YT</a>
-            <a href="#" aria-label="Vimeo">VM</a>
+            <a href="https://www.instagram.com/binghamtonfps/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@FPSBINGHAMTON" aria-label="YouTube" target="_blank" rel="noopener noreferrer">YT</a>
+            <a href="https://discord.com/invite/2mpbGwKZBn" aria-label="Discord" target="_blank" rel="noopener noreferrer">DS</a>
         </div>
         <p class="copyright">&copy; 2025 FPS. All Rights Reserved.</p>
     </footer>
@@ -429,26 +367,7 @@
             }
         });
 
-        // Form submission
-        document.getElementById('pitchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            const pitchData = Object.fromEntries(formData);
-            
-            // Simple validation
-            if (!pitchData.projectTitle || !pitchData.projectType || !pitchData.projectDescription || !pitchData.contactInfo) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            // Simulate form submission
-            alert('Thank you for your pitch! The FPS executive board will review your submission and get back to you within 1-2 weeks.');
-            
-            // Reset form
-            this.reset();
-        });
+        // No local form; pitches are submitted via Google Forms
     </script>
 </body>
 </html>
