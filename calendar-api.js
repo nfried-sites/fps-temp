@@ -5,7 +5,7 @@ class CalendarAPI {
     constructor() {
         // Your Google Calendar ID (extracted from the existing embed)
         this.calendarId = 'c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4@group.calendar.google.com';
-        this.apiKey = ''; // Will be set from environment variable
+        this.apiKey = 'AIzaSyBxpiTwTM5Bu6zyIIFGNtTeZ5I9p_njpqQ'; // Temporary: will be moved to Cloudflare Pages secret
         this.baseUrl = 'https://www.googleapis.com/calendar/v3/calendars';
         this.eventsContainer = null;
     }
@@ -15,15 +15,6 @@ class CalendarAPI {
         this.eventsContainer = document.querySelector('.events-grid');
         if (!this.eventsContainer) {
             console.error('Events container not found');
-            return;
-        }
-
-        // Fetch API key from secure endpoint
-        try {
-            await this.fetchApiKey();
-        } catch (error) {
-            console.warn('Could not fetch API key:', error);
-            this.showFallbackEvents();
             return;
         }
 
@@ -115,7 +106,7 @@ class CalendarAPI {
             description: 'Check back soon for upcoming events and meetings!',
             start: { dateTime: null },
             end: { dateTime: null },
-            htmlLink: 'https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York',
+            htmlLink: '#',
             isEmpty: true
         };
     }
@@ -156,9 +147,6 @@ class CalendarAPI {
             });
             const time = this.formatEventTime(startDate, endDate);
 
-            // Create a proper Google Calendar link
-            const calendarLink = event.htmlLink || `https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York`;
-
             card.innerHTML = `
                 <div class="event-date">
                     <span class="month">${month}</span>
@@ -169,7 +157,7 @@ class CalendarAPI {
                     <p>${event.description || 'No description available.'}</p>
                     <span class="event-time">${time}</span>
                     <div class="event-actions">
-                        <a href="${calendarLink}" target="_blank" class="add-to-calendar-btn">
+                        <a href="${event.htmlLink}" target="_blank" class="add-to-calendar-btn">
                             View in Google Calendar
                         </a>
                     </div>
@@ -227,51 +215,14 @@ class CalendarAPI {
 
     // Show fallback events when API is not available
     showFallbackEvents() {
+        // Create placeholder events for fallback
         const fallbackEvents = [
-            {
-                summary: 'Weekly FPS Meeting',
-                description: 'Join us for our weekly meetings where we discuss current projects, plan upcoming productions, and collaborate on creative ideas.',
-                start: { dateTime: this.getNextWednesday() },
-                end: { dateTime: this.getNextWednesday(2) },
-                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Weekly%20FPS%20Meeting&dates=' + this.getNextWednesday().toISOString().replace(/[-:]/g, '').split('.')[0] + '/Z'
-            },
-            {
-                summary: 'Film Screening Night',
-                description: 'Join us for a screening of student films and industry favorites. Pizza and drinks provided!',
-                start: { dateTime: this.getNextEventDate(21) },
-                end: { dateTime: this.getNextEventDate(21, 3) },
-                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Film%20Screening%20Night'
-            },
-            {
-                summary: '48-Hour Film Challenge',
-                description: 'Create a complete short film in just 48 hours! Teams will be formed at the event kickoff.',
-                start: { dateTime: this.getNextEventDate(15, 0, 1) },
-                end: { dateTime: this.getNextEventDate(17, 0, 1) },
-                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=48-Hour%20Film%20Challenge'
-            }
+            this.createEmptyEvent(0),
+            this.createEmptyEvent(1),
+            this.createEmptyEvent(2)
         ];
 
         this.displayEvents(fallbackEvents);
-    }
-
-    // Helper methods for fallback events
-    getNextWednesday(hours = 1) {
-        const now = new Date();
-        const daysUntilWednesday = (3 - now.getDay() + 7) % 7;
-        const nextWednesday = new Date(now);
-        nextWednesday.setDate(now.getDate() + (daysUntilWednesday === 0 ? 7 : daysUntilWednesday));
-        nextWednesday.setHours(19, 0, 0, 0); // 7:00 PM
-        return nextWednesday;
-    }
-
-    getNextEventDate(day, hours = 0, monthOffset = 0) {
-        const now = new Date();
-        const targetDate = new Date(now.getFullYear(), now.getMonth() + monthOffset, day);
-        if (targetDate < now) {
-            targetDate.setMonth(targetDate.getMonth() + 1);
-        }
-        targetDate.setHours(19 + hours, 0, 0, 0);
-        return targetDate;
     }
 
 }
