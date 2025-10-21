@@ -1,0 +1,262 @@
+// Google Calendar API Integration for FPS Website
+// This script fetches events from Google Calendar and displays them dynamically
+
+class CalendarAPI {
+    constructor() {
+        // Your Google Calendar ID (extracted from the existing embed)
+        this.calendarId = 'c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4@group.calendar.google.com';
+        this.apiKey = 'AIzaSyBxpiTwTM5Bu6zyIIFGNtTeZ5I9p_njpqQ';
+        this.baseUrl = 'https://www.googleapis.com/calendar/v3/calendars';
+        this.eventsContainer = null;
+    }
+
+    // Initialize the calendar API
+    async init() {
+        this.eventsContainer = document.querySelector('.events-grid');
+        if (!this.eventsContainer) {
+            console.error('Events container not found');
+            return;
+        }
+
+        // Check if API key is configured
+        if (!this.apiKey) {
+            console.warn('Google Calendar API key not configured. Using fallback events.');
+            this.showFallbackEvents();
+            return;
+        }
+
+        try {
+            await this.loadEvents();
+        } catch (error) {
+            console.error('Error loading calendar events:', error);
+            this.showFallbackEvents();
+        }
+    }
+
+    // Load events from Google Calendar
+    async loadEvents() {
+        const now = new Date();
+        const maxDate = new Date();
+        maxDate.setMonth(now.getMonth() + 3); // Get events for next 3 months
+
+        const url = `${this.baseUrl}/${this.calendarId}/events?` +
+            `key=${this.apiKey}&` +
+            `timeMin=${now.toISOString()}&` +
+            `timeMax=${maxDate.toISOString()}&` +
+            `singleEvents=true&` +
+            `orderBy=startTime&` +
+            `maxResults=10`;
+
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        this.displayEvents(data.items || []);
+    }
+
+    // Display events in the grid
+    displayEvents(events) {
+        // Clear existing events
+        this.eventsContainer.innerHTML = '';
+
+        // Always show exactly 3 events
+        const eventsToShow = this.prepareEvents(events, 3);
+
+        eventsToShow.forEach(event => {
+            const eventCard = this.createEventCard(event);
+            this.eventsContainer.appendChild(eventCard);
+        });
+    }
+
+    // Prepare events to always show exactly 3 events
+    prepareEvents(events, requiredCount = 3) {
+        const eventsToShow = [...events];
+        
+        // If we don't have enough events, add empty placeholder events
+        while (eventsToShow.length < requiredCount) {
+            const emptyEvent = this.createEmptyEvent(eventsToShow.length);
+            eventsToShow.push(emptyEvent);
+        }
+        
+        // If we have too many events, take only the first requiredCount
+        return eventsToShow.slice(0, requiredCount);
+    }
+
+    // Create an empty placeholder event
+    createEmptyEvent(index = 0) {
+        return {
+            summary: 'Event Coming Soon',
+            description: 'Check back soon for upcoming events and meetings!',
+            start: { dateTime: null },
+            end: { dateTime: null },
+            htmlLink: 'https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York',
+            isEmpty: true
+        };
+    }
+
+    // Create an event card element
+    createEventCard(event) {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+
+        // Handle empty placeholder events differently
+        if (event.isEmpty) {
+            card.innerHTML = `
+                <div class="event-date" style="background-color: #333; color: #888;">
+                    <span class="month">TBD</span>
+                    <span class="day">?</span>
+                </div>
+                <div class="event-details">
+                    <h3 style="color: #888;">${event.summary}</h3>
+                    <p style="color: #666;">${event.description}</p>
+                    <span class="event-time" style="color: #666;">Date TBD</span>
+                    <div class="event-actions">
+                        <span style="color: #666; font-style: italic;">Coming Soon</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            const startDate = new Date(event.start.dateTime || event.start.date);
+            const endDate = new Date(event.end.dateTime || event.end.date);
+            
+            // Format date in Eastern Time (GMT-4 EDT / GMT-5 EST)
+            const month = startDate.toLocaleDateString('en-US', { 
+                month: 'short',
+                timeZone: 'America/New_York'
+            }).toUpperCase();
+            const day = startDate.toLocaleDateString('en-US', { 
+                day: 'numeric',
+                timeZone: 'America/New_York'
+            });
+            const time = this.formatEventTime(startDate, endDate);
+
+            // Create a proper Google Calendar link
+            const calendarLink = event.htmlLink || `https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York`;
+
+            card.innerHTML = `
+                <div class="event-date">
+                    <span class="month">${month}</span>
+                    <span class="day">${day}</span>
+                </div>
+                <div class="event-details">
+                    <h3>${event.summary || 'Untitled Event'}</h3>
+                    <p>${event.description || 'No description available.'}</p>
+                    <span class="event-time">${time}</span>
+                    <div class="event-actions">
+                        <a href="${calendarLink}" target="_blank" class="add-to-calendar-btn">
+                            View in Google Calendar
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        return card;
+    }
+
+    // Format event time display
+    formatEventTime(startDate, endDate) {
+        // Format times directly in Eastern Time
+        const startTime = startDate.toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'America/New_York'
+        });
+        
+        const endTime = endDate.toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'America/New_York'
+        });
+
+        // Check if it's an all-day event (both at midnight)
+        if (startTime === '12:00 AM' && endTime === '12:00 AM') {
+            return 'All Day';
+        }
+
+        // Check if it's the same day
+        const startDateET = startDate.toLocaleDateString('en-US', { timeZone: 'America/New_York' });
+        const endDateET = endDate.toLocaleDateString('en-US', { timeZone: 'America/New_York' });
+        
+        if (startDateET === endDateET) {
+            return `${startTime} - ${endTime}`;
+        } else {
+            // Multi-day event
+            const startDateStr = startDate.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                timeZone: 'America/New_York'
+            });
+            const endDateStr = endDate.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                timeZone: 'America/New_York'
+            });
+            
+            return `${startDateStr} - ${endDateStr}`;
+        }
+    }
+
+    // Show fallback events when API is not available
+    showFallbackEvents() {
+        const fallbackEvents = [
+            {
+                summary: 'Weekly FPS Meeting',
+                description: 'Join us for our weekly meetings where we discuss current projects, plan upcoming productions, and collaborate on creative ideas.',
+                start: { dateTime: this.getNextWednesday() },
+                end: { dateTime: this.getNextWednesday(2) },
+                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Weekly%20FPS%20Meeting&dates=' + this.getNextWednesday().toISOString().replace(/[-:]/g, '').split('.')[0] + '/Z'
+            },
+            {
+                summary: 'Film Screening Night',
+                description: 'Join us for a screening of student films and industry favorites. Pizza and drinks provided!',
+                start: { dateTime: this.getNextEventDate(21) },
+                end: { dateTime: this.getNextEventDate(21, 3) },
+                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Film%20Screening%20Night'
+            },
+            {
+                summary: '48-Hour Film Challenge',
+                description: 'Create a complete short film in just 48 hours! Teams will be formed at the event kickoff.',
+                start: { dateTime: this.getNextEventDate(15, 0, 1) },
+                end: { dateTime: this.getNextEventDate(17, 0, 1) },
+                htmlLink: 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=48-Hour%20Film%20Challenge'
+            }
+        ];
+
+        this.displayEvents(fallbackEvents);
+    }
+
+    // Helper methods for fallback events
+    getNextWednesday(hours = 1) {
+        const now = new Date();
+        const daysUntilWednesday = (3 - now.getDay() + 7) % 7;
+        const nextWednesday = new Date(now);
+        nextWednesday.setDate(now.getDate() + (daysUntilWednesday === 0 ? 7 : daysUntilWednesday));
+        nextWednesday.setHours(19, 0, 0, 0); // 7:00 PM
+        return nextWednesday;
+    }
+
+    getNextEventDate(day, hours = 0, monthOffset = 0) {
+        const now = new Date();
+        const targetDate = new Date(now.getFullYear(), now.getMonth() + monthOffset, day);
+        if (targetDate < now) {
+            targetDate.setMonth(targetDate.getMonth() + 1);
+        }
+        targetDate.setHours(19 + hours, 0, 0, 0);
+        return targetDate;
+    }
+
+}
+
+// Initialize the calendar when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    const calendar = new CalendarAPI();
+    calendar.init();
+});
+
+// Export for potential use in other scripts
+window.CalendarAPI = CalendarAPI;

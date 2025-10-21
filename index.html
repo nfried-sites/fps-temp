@@ -374,6 +374,8 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
         }
 
         .calendar-btn {
@@ -405,6 +407,19 @@
         .google-calendar-embed iframe {
             border-radius: 6px;
             background: white;
+        }
+
+        /* Loading spinner animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-events {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         /* --- Events Section --- */
@@ -628,8 +643,7 @@
                     </div>
                 </li>
                 
-                <li><a href="#meetings">Meetings</a></li>
-                <li><a href="#events">Events</a></li>
+                <li><a href="#meetings">Meeting & Events</a></li>
                 <li><a href="pitch-production.html">Pitch</a></li>
                 <li><a href="casting.html">Casting</a></li>
                 <li><a href="eboard.html">Eboard</a></li>               
@@ -705,23 +719,20 @@
     <section id="meetings">
         <div class="container">
             <h2>Upcoming Meetings & Events</h2>
+            <div class="meeting-info">
+                <p><strong>When:</strong> Every Wednesday at 7:00 PM</p>
+                <p><strong>Where:</strong> Student Union Building, Room 205</p>
+            </div>
             <!--<p>Join us for our weekly meetings where we discuss current projects, plan upcoming productions, and collaborate on creative ideas. All skill levels welcome - whether you're a seasoned filmmaker or just starting out, there's a place for you in our community.</p>-->
-            
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="calendar-title">FPS Club Calendar</div>
-                    <div class="calendar-actions">
-                        <a href="https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York" 
-                           target="_blank" 
-                           class="btn calendar-btn">
-                            View Full Calendar
-                        </a>
-                        <a href="https://calendar.google.com/calendar/ical/c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com/public/basic.ics" 
-                           class="btn calendar-btn">
-                            Subscribe to Calendar
-                        </a>
-                    </div>
+            <div class="events-grid">
+                <!-- Events will be loaded dynamically from Google Calendar -->
+                <div class="loading-events" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #ccc;">
+                    <div class="loading-spinner" style="display: inline-block; width: 20px; height: 20px; border: 2px solid #333; border-top: 2px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;"></div>
+                    Loading events from Google Calendar...
                 </div>
+            </div>
+            <div class="calendar-container">
+                
                 
                 <div class="google-calendar-embed">
                     <iframe src="https://calendar.google.com/calendar/embed?src=c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com&ctz=America%2FNew_York" 
@@ -731,77 +742,22 @@
                             frameborder="0" 
                             scrolling="no">
                     </iframe>
+                    <!--<div class="calendar-header">
+                        <div class="calendar-title">FPS Club Calendar</div>
+                    </div>-->
+                    <div class="calendar-actions">
+                        <a href="https://calendar.google.com/calendar/ical/c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4%40group.calendar.google.com/public/basic.ics" 
+                           class="btn calendar-btn">
+                             Add to Google Calendar
+                        </a>
+                    </div>
                 </div>
             </div>
             
-            <div class="meeting-info">
-                <p><strong>When:</strong> Every Wednesday at 7:00 PM</p>
-                <p><strong>Where:</strong> Student Union Building, Room 205</p>
-            </div>
+            
         </div>
     </section>
 
-    <section id="events">
-        <div class="container">
-            <h2>Events</h2>
-            <div class="events-grid">
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="month">JAN</span>
-                        <span class="day">21</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Film Screening Night</h3>
-                        <p>Join us for a screening of student films and industry favorites. Pizza and drinks provided!</p>
-                        <span class="event-time">7:00 PM - 10:00 PM</span>
-                        <div class="event-actions">
-                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Film%20Screening%20Night&dates=20250121T190000/20250121T220000&details=Join%20us%20for%20a%20screening%20of%20student%20films%20and%20industry%20favorites.%20Pizza%20and%20drinks%20provided!&location=Student%20Union%20Building%2C%20Room%20205" 
-                               target="_blank" 
-                               class="add-to-calendar-btn">
-                                Add to Google Calendar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="month">FEB</span>
-                        <span class="day">15</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>48-Hour Film Challenge</h3>
-                        <p>Create a complete short film in just 48 hours! Teams will be formed at the event kickoff.</p>
-                        <span class="event-time">All Weekend</span>
-                        <div class="event-actions">
-                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=48-Hour%20Film%20Challenge&dates=20250215T000000/20250217T000000&details=Create%20a%20complete%20short%20film%20in%20just%2048%20hours!%20Teams%20will%20be%20formed%20at%20the%20event%20kickoff.&location=Student%20Union%20Building%2C%20Room%20205" 
-                               target="_blank" 
-                               class="add-to-calendar-btn">
-                                Add to Google Calendar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="month">MAR</span>
-                        <span class="day">8</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Guest Speaker: Local Director</h3>
-                        <p>Meet and learn from a professional filmmaker about breaking into the industry.</p>
-                        <span class="event-time">6:30 PM - 8:00 PM</span>
-                        <div class="event-actions">
-                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Guest%20Speaker%3A%20Local%20Director&dates=20250308T183000/20250308T200000&details=Meet%20and%20learn%20from%20a%20professional%20filmmaker%20about%20breaking%20into%20the%20industry.&location=Student%20Union%20Building%2C%20Room%20205" 
-                               target="_blank" 
-                               class="add-to-calendar-btn">
-                                Add to Google Calendar
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     
     <section id="join">
         
@@ -878,5 +834,8 @@
 
         // Google Calendar integration is now handled via iframe embed
     </script>
+    
+    <!-- Google Calendar API Integration -->
+    <script src="calendar-api.js"></script>
 </body>
 </html>
