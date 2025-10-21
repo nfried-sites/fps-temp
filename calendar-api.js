@@ -5,7 +5,7 @@ class CalendarAPI {
     constructor() {
         // Your Google Calendar ID (extracted from the existing embed)
         this.calendarId = 'c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4@group.calendar.google.com';
-        this.apiKey = 'AIzaSyBxpiTwTM5Bu6zyIIFGNtTeZ5I9p_njpqQ';
+        this.apiKey = ''; // Will be set from environment variable
         this.baseUrl = 'https://www.googleapis.com/calendar/v3/calendars';
         this.eventsContainer = null;
     }
@@ -15,6 +15,15 @@ class CalendarAPI {
         this.eventsContainer = document.querySelector('.events-grid');
         if (!this.eventsContainer) {
             console.error('Events container not found');
+            return;
+        }
+
+        // Fetch API key from secure endpoint
+        try {
+            await this.fetchApiKey();
+        } catch (error) {
+            console.warn('Could not fetch API key:', error);
+            this.showFallbackEvents();
             return;
         }
 
@@ -30,6 +39,21 @@ class CalendarAPI {
         } catch (error) {
             console.error('Error loading calendar events:', error);
             this.showFallbackEvents();
+        }
+    }
+
+    // Fetch API key from secure endpoint
+    async fetchApiKey() {
+        try {
+            const response = await fetch('/api/calendar-key');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            this.apiKey = data.apiKey;
+        } catch (error) {
+            console.error('Error fetching API key:', error);
+            throw error;
         }
     }
 
