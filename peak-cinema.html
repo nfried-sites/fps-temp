@@ -103,6 +103,122 @@
             color: var(--primary-color);
         }
 
+        /* --- Mobile Menu --- */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            margin: 20px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-dropdown {
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+
+        .mobile-dropdown a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
         /* --- Dropdown Menu --- */
         .dropdown {
             position: relative;
@@ -269,6 +385,59 @@
             color: var(--primary-color);
         }
 
+        .episode-hover-overlay {
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            display: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .episode-list li {
+            position: relative;
+        }
+
+
+        .hover-player {
+            width: 100%;
+            height: 200px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .hover-links {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .hover-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .hover-link:hover {
+            background: #004A36;
+        }
+
+        .hover-link.spotify {
+            background: #1DB954;
+        }
+
+        .hover-link.spotify:hover {
+            background: #1ed760;
+        }
+
         .episode-list li:last-child {
             border-bottom: none;
         }
@@ -281,6 +450,18 @@
         .episode-date {
             color: #999;
             font-size: 0.9rem;
+        }
+
+        .episode-number {
+            display: inline-block;
+            background-color: #333;
+            color: #ccc;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 8px;
+            vertical-align: middle;
         }
 
         .season-filters {
@@ -397,15 +578,15 @@
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .main-header {
-                flex-direction: column;
-                padding: 15px;
+                flex-direction: row;
+                padding: 15px 20px;
+                justify-content: space-between;
             }
-            .main-nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
+            .main-nav {
+                display: none;
             }
-            .main-nav ul li {
-                margin: 0 10px;
+            .mobile-menu-toggle {
+                display: flex;
             }
             .dropdown-content {
                 position: static;
@@ -441,6 +622,11 @@
             h2 {
                 font-size: 1.8rem;
             }
+            
+            /* Hide hover overlays on mobile for better UX */
+            .episode-hover-overlay {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -458,15 +644,37 @@
                     </div>
                 </li>
                 
-                <li><a href="index.html#meetings">Meetings</a></li>
-                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#meetings">Meeting & Events</a></li>
                 <li><a href="pitch-production.html">Pitch</a></li>
                 <li><a href="casting.html">Casting</a></li>
                 <li><a href="eboard.html">Eboard</a></li>               
                 <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li>
+                <a href="index.html#films" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown">
+                    <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
+                    <a href="peak-cinema.html">Peak Cinema</a>
+                </div>
+            </li>
+            <li><a href="index.html#meetings">Meeting & Events</a></li>
+            <li><a href="pitch-production.html">Pitch</a></li>
+            <li><a href="casting.html">Casting</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+        </ul>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
@@ -477,48 +685,46 @@
                 <span>📅 2025</span>
                 <span>⏱️ 45-60 min episodes</span>
             </div>
-            <a href="#listen" class="btn">Listen Now</a>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <a href="#listen" class="btn" style="background: #762e2e;">Watch on YouTube</a>
+                <a href="https://open.spotify.com/episode/6ela1b88BCcmq6QdDC3HYH?si=fa150538564b408b" target="_blank" class="btn" style="background: var(--primary-color);">Listen on Spotify</a>
+            </div>
         </div>
     </section>
 
     <main class="container" style="padding-top: 40px;">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-number">24</span>
-                <span class="stat-label">Episodes</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">15K</span>
-                <span class="stat-label">Downloads</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">4.9</span>
-                <span class="stat-label">Rating</span>
-            </div>
-        </div>
+        
 
         <div class="content-grid">
             <div class="main-content">
                 <h2>About the Podcast</h2>
-                <p>Peak Cinema is FPS's flagship podcast where our resident film experts Tony and Austin dive deep into the world of cinema. From classic Hollywood to modern indie films, we explore the art, craft, and culture that makes movies magical.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
                 
-                <p>Each week, we bring you engaging discussions, insightful interviews with industry professionals, and passionate debates about everything from cinematography techniques to storytelling methods. Whether you're a film student or just a movie lover, Peak Cinema has something for everyone.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. </p>
 
                 <div id="listen">
                     <h3>Latest Episode</h3>
-                    <div class="embed" aria-label="Audio placeholder">
-                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 1.2rem;">
-                            🎧 Audio Player Placeholder
-                        </div>
+                    <div class="embed" aria-label="Latest episode video">
+                        <iframe 
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/GG2pbe81n14" 
+                            title="Peak Cinema - Episode 1: Rom-Coms" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
                     </div>
                     <p style="margin-top: 15px; color: #ccc; font-size: 0.9rem;">
-                        Episode 24: "The Art of Cinematography" - A deep dive into visual storytelling with guest cinematographer Sarah Chen.
+                        Season 1 Episode 1: Rom-Coms
                     </p>
+                    <div style="margin-top: 20px;">
+                        <a href="https://open.spotify.com/episode/6ela1b88BCcmq6QdDC3HYH?si=fa150538564b408b" target="_blank" class="btn" style="background: #1DB954;">Listen on Spotify</a>
+                    </div>
                 </div>
 
                 <div style="margin-top: 30px;">
                     <a href="index.html#films" class="btn btn-outline">← Back to Productions</a>
-                    <a href="pitch-production.html" class="btn">Pitch Your Idea</a>
                 </div>
             </div>
 
@@ -571,17 +777,61 @@
             if (window.scrollY>50) h.classList.add('scrolled'); else h.classList.remove('scrolled');
         });
 
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+        const mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Mobile productions dropdown toggle
+        mobileProductionsToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileProductionsToggle.classList.toggle('active');
+            mobileProductionsDropdown.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link (except dropdown toggle)
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
         // ===== EASY UPDATE AREA =====
         // Add new episodes here - just copy the format and update the details
         // id: YouTube URL or video ID, title: episode title, date: release date, season: season number
         const VIDEO_LIST = [
-            { id: 'https://www.youtube.com/watch?v=example1', title: "The Art of Cinematography", date: 'Jan 20, 2025', season: 2 },
-            { id: 'https://www.youtube.com/watch?v=example2', title: "Indie Film Revolution", date: 'Jan 13, 2025', season: 2 },
-            { id: 'https://www.youtube.com/watch?v=example3', title: "Classic Hollywood Deep Dive", date: 'Jan 6, 2025', season: 2 },
-            { id: 'https://www.youtube.com/watch?v=example4', title: "Directing Masterclass", date: 'Dec 30, 2024', season: 1 },
-            { id: 'https://www.youtube.com/watch?v=example5', title: "Film School vs Real World", date: 'Dec 23, 2024', season: 1 },
-            { id: 'https://www.youtube.com/watch?v=example6', title: "The Future of Film", date: 'Dec 16, 2024', season: 1 },
-            { id: 'https://www.youtube.com/watch?v=example7', title: "Sound Design Secrets", date: 'Dec 9, 2024', season: 1 }
+            //{ id: '', title: "Episode 3: Coming Soon", date: 'TBA', season: 2 },
+            //{ id: '', title: "Episode 2: Coming Soon", date: 'TBA', season: 2 },
+            { id: '', title: "Episode 1: Coming Soon", date: 'TBA', season: 2 },
+            { id: 'https://www.youtube.com/watch?v=jDSO7tNrHuA', title: "Episode 13: Pitch Perfect", date: 'Oct 7, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=eXSHJDq2SUc', title: "Episode 12: Comedies", date: 'Oct 14, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=mkjkh4gYkLo', title: "Episode 11: Larry", date: 'Oct 21, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=e8sw7Q5EH8o', title: "Episode 10: Video Game Adaptations", date: 'Oct 28, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=mEprKSWtz3c', title: "Episode 9: Minecraft", date: 'Nov 4, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=TQMjkeWrIQ8', title: "Episode 8: Transformers", date: 'Nov 11, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=39pqPKG5nKY', title: "Episode 7: Musicals", date: 'Nov 18, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=xIpQ1C5P1Hs', title: "Episode 6: Animation", date: 'Nov 25, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=Iowy7UW3EKI', title: "Episode 5: Marvel Phase One", date: 'Dec 2, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=fYG2b3rrf_Y', title: "Episode 4: Captain America", date: 'Dec 9, 2024', season: 1 },
+            { id: 'https://www.youtube.com/watch?v=0a1P6DFMWsc', title: "Episode 3: Horror", date: 'Dec 16, 2024', season: 1 },
+            { id: 'https://youtu.be/DXJ30JXoHcg', title: "Episode 2: Disney Channel Original Movies", date: 'Dec 23, 2024', season: 1 },
+            { id: 'https://youtu.be/GG2pbe81n14', title: "Episode 1: Rom-Coms", date: 'Dec 30, 2024', season: 1 }
         ];
 
         // Helper: extract YouTube ID from URL or return as-is if already an ID
@@ -675,20 +925,95 @@
             episodesContainer.innerHTML = '';
             for (let i = 0; i < filteredVideos.length; i++) {
                 const video = filteredVideos[i];
+                
+                // Create a hover group container
+                const hoverGroup = document.createElement('div');
+                hoverGroup.style.position = 'relative';
+                
+                // Create the list item
                 const item = document.createElement('li');
                 item.innerHTML = `
                     <span class="episode-title"></span>
                     <span class="episode-date"></span>
                 `;
-                item.addEventListener('click', () => {
-                    window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
-                });
-                episodesContainer.appendChild(item);
+                
+                // Add the episode to the hover group
+                hoverGroup.appendChild(item);
+                
+                // Only add click functionality and hover overlay for episodes with actual content
+                if (video.id && !video.title.includes('Coming Soon')) {
+                    item.addEventListener('click', () => {
+                        window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank');
+                    });
+                    
+                    // Create the hover overlay as a separate element
+                    const hoverOverlay = document.createElement('div');
+                    hoverOverlay.className = 'episode-hover-overlay';
+                    
+                    // Get Spotify link based on episode title
+                    const getSpotifyLink = (title) => {
+                        const spotifyLinks = {
+                            "Episode 13: Pitch Perfect": "https://open.spotify.com/episode/3qKLrYP79BHv2JY8nweo3Z?si=7fcdcc49ab2b48dd",
+                            "Episode 12: Comedies": "https://open.spotify.com/episode/5YbWxOORe6R463VuRRLn1X?si=c3de71c08c49410f",
+                            "Episode 11: Larry": "https://open.spotify.com/episode/4yaVXaxsXx2eksZksGYhiR?si=58e7a498a67f4e15",
+                            "Episode 10: Video Game Adaptations": "https://open.spotify.com/episode/5zJdaFbCUuOCEOGws5CD7m?si=0529de77daed48b4",
+                            "Episode 9: Minecraft": "https://open.spotify.com/episode/3LJz0OL8SdbEuaEUcK7Thc?si=f7f39577a0954c14",
+                            "Episode 8: Transformers": "https://open.spotify.com/episode/0jhrFmppfLfyJ6WbW4Mem7?si=8938e89e602f4132",
+                            "Episode 7: Musicals": "https://open.spotify.com/episode/7e58fO1FSC71HyAxZprVe7?si=ae3c4d8dcaa54faa",
+                            "Episode 6: Animation": "https://open.spotify.com/episode/0AttZD6dWZPhQZR79Vx1ZC?si=150354a365ea431f",
+                            "Episode 5: Marvel Phase One": "https://open.spotify.com/episode/2L5gUbaZbivpwO0tVcj5ff?si=8beb84e85d0545b5",
+                            "Episode 4: Captain America": "https://open.spotify.com/episode/0Jj2w37vju5iHUp8mQJjEb?si=67896bced5da46fa",
+                            "Episode 3: Horror": "https://open.spotify.com/episode/1bToTvUIFCuFeI0LYA8xBA?si=d2019cb085934e02",
+                            "Episode 2: Disney Channel Original Movies": "https://open.spotify.com/episode/340VyHvWI6IcXUHJ5gnCP2?si=77d97f409146489a",
+                            "Episode 1: Rom-Coms": "https://open.spotify.com/episode/6ela1b88BCcmq6QdDC3HYH?si=fa150538564b408b"
+                        };
+                        return spotifyLinks[title] || "#";
+                    };
+                    
+                    const spotifyLink = getSpotifyLink(video.title);
+                    
+                    hoverOverlay.innerHTML = `
+                        <iframe class="hover-player" src="https://www.youtube.com/embed/${video.id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="hover-links">
+                            <a href="https://www.youtube.com/watch?v=${video.id}" target="_blank" class="hover-link">Watch on YouTube</a>
+                            <a href="${spotifyLink}" target="_blank" class="hover-link spotify">Listen on Spotify</a>
+                        </div>
+                    `;
+                    
+                    // Add the hover overlay to the hover group
+                    hoverGroup.appendChild(hoverOverlay);
+                    
+                    // Add hover functionality to the group
+                    hoverGroup.addEventListener('mouseenter', () => {
+                        hoverOverlay.style.display = 'block';
+                    });
+                    
+                    hoverGroup.addEventListener('mouseleave', () => {
+                        hoverOverlay.style.display = 'none';
+                    });
+                } else {
+                    // For "Coming Soon" episodes, add a subtle style to indicate it's not clickable
+                    item.style.opacity = '0.6';
+                    item.style.cursor = 'default';
+                }
+                
+                // Add the hover group to the container
+                episodesContainer.appendChild(hoverGroup);
 
                 const titleElement = item.querySelector('.episode-title');
                 const dateElement = item.querySelector('.episode-date');
                 const label = determineContentLabel(video.title);
-                if (titleElement) titleElement.textContent = replaceEpisodeToken(video.title, label);
+                
+                // Parse episode number and title
+                const episodeMatch = video.title.match(/^Episode (\d+):\s*(.+)$/);
+                if (episodeMatch) {
+                    const episodeNumber = episodeMatch[1];
+                    const episodeTitle = episodeMatch[2];
+                    titleElement.innerHTML = `<span class="episode-number">${episodeNumber}</span>${episodeTitle}`;
+                } else {
+                    titleElement.textContent = replaceEpisodeToken(video.title, label);
+                }
+                
                 if (dateElement) dateElement.textContent = video.date;
             }
 

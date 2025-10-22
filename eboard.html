@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+2<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -105,6 +105,122 @@
             color: var(--primary-color);
         }
 
+        /* --- Mobile Menu --- */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            margin: 20px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-dropdown {
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+
+        .mobile-dropdown a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
         /* --- Dropdown Menu --- */
         .dropdown {
             position: relative;
@@ -198,7 +314,7 @@
 
         .eboard-bio {
             font-size: 0.95rem;
-            color: var(--light-gray);
+            color: var(-#004A36);
             line-height: 1.5;
         }
 
@@ -230,22 +346,18 @@
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .main-header {
-                flex-direction: column;
+                flex-direction: row;
                 padding: 12px 16px;
+                justify-content: space-between;
             }
             .logo {
                 font-size: 1.4rem;
             }
-            .main-nav ul {
-                margin-top: 12px;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                gap: 12px;
-                padding-bottom: 6px;
+            .main-nav {
+                display: none;
             }
-            .main-nav ul li {
-                margin: 0 8px;
+            .mobile-menu-toggle {
+                display: flex;
             }
             .dropdown-content {
                 position: static;
@@ -325,15 +437,37 @@
                     </div>
                 </li>
                 
-                <li><a href="index.html#meetings">Meetings</a></li>
-                <li><a href="index.html#events">Events</a></li>
+                <li><a href="index.html#meetings">Meeting & Events</a></li>
                 <li><a href="pitch-production.html">Pitch</a></li>
                 <li><a href="casting.html">Casting</a></li>
                 <li><a href="eboard.html">Eboard</a></li>               
                 <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li>
+                <a href="index.html#films" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown">
+                    <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
+                    <a href="peak-cinema.html">Peak Cinema</a>
+                </div>
+            </li>
+            <li><a href="index.html#meetings">Meeting & Events</a></li>
+            <li><a href="pitch-production.html">Pitch</a></li>
+            <li><a href="casting.html">Casting</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+        </ul>
+    </div>
 
     <section class="container" style="padding-top: 120px;">
         <h2>Executive Board</h2>
@@ -344,7 +478,7 @@
                 </div>
                 <div class="eboard-name">Matthew Chow</div>
                 <div class="eboard-position">President</div>
-                <div class="eboard-bio">Cinema Major, Senior. Leading FPS with passion for filmmaking and storytelling.</div>
+                <div class="eboard-bio">Cinema<br>Senior</div>
             </div>
             
             <div class="eboard-card">
@@ -353,7 +487,7 @@
                 </div>
                 <div class="eboard-name">Mia Hargest</div>
                 <div class="eboard-position">Vice President</div>
-                <div class="eboard-bio">Cinema Major, Junior. Supporting the organization's vision and managing key initiatives.</div>
+                <div class="eboard-bio">Cinema<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -362,7 +496,7 @@
                 </div>
                 <div class="eboard-name">Dorian Botier</div>
                 <div class="eboard-position">Treasurer</div>
-                <div class="eboard-bio">Economics Major, Junior. Managing finances and budget planning for all FPS activities.</div>
+                <div class="eboard-bio">Economics<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -371,7 +505,7 @@
                 </div>
                 <div class="eboard-name">Mikalah Ortiz</div>
                 <div class="eboard-position">Secretary</div>
-                <div class="eboard-bio">Cinema and Economics Major, Junior. Keeping records and coordinating communications.</div>
+                <div class="eboard-bio">Cinema and Economics<br>Junior</div>
             </div>
             <div class="eboard-card">
                 <div class="eboard-photo">
@@ -379,7 +513,7 @@
                 </div>
                 <div class="eboard-name">Eddie Cigna</div>
                 <div class="eboard-position">Production Manager</div>
-                <div class="eboard-bio">Cinema and English (Creative Writing) Major, Junior. Overseeing production logistics and creative development.</div>
+                <div class="eboard-bio">Cinema and English (Creative Writing)<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -388,7 +522,7 @@
                 </div>
                 <div class="eboard-name">Dan Hunter</div>
                 <div class="eboard-position">Production Manager</div>
-                <div class="eboard-bio">Film and Economics Major, Junior. Managing production logistics and coordinating film projects.</div>
+                <div class="eboard-bio">Film and Economics<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -397,7 +531,7 @@
                 </div>
                 <div class="eboard-name">Nick Friedlander</div>
                 <div class="eboard-position">Editing Director</div>
-                <div class="eboard-bio">Computer Science Major, Sophomore. Bringing technical expertise to post-production and editing.</div>
+                <div class="eboard-bio">Computer Science<br>Sophomore</div>
             </div>
             
             <div class="eboard-card">
@@ -406,7 +540,7 @@
                 </div>
                 <div class="eboard-name">Theo</div>
                 <div class="eboard-position">Editing Director</div>
-                <div class="eboard-bio">Bringing creative vision to post-production and final cut editing.</div>
+                <div class="eboard-bio">Cinema<br>Sophomore</div>
             </div>
 
             <div class="eboard-card">
@@ -415,7 +549,7 @@
                 </div>
                 <div class="eboard-name">Maya</div>
                 <div class="eboard-position">Event Coordinator</div>
-                <div class="eboard-bio">Cinema Major with Economics Minor, Junior. Organizing events and building community engagement.</div>
+                <div class="eboard-bio">Cinema with Economics Minor<br>Junior</div>
             </div>
             
             
@@ -426,7 +560,7 @@
                 </div>
                 <div class="eboard-name">Ethan Melchior</div>
                 <div class="eboard-position">Art Director</div>
-                <div class="eboard-bio">Physics and Math Major, Junior. Bringing visual creativity and technical precision to our productions.</div>
+                <div class="eboard-bio">Physics and Math<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -435,7 +569,7 @@
                 </div>
                 <div class="eboard-name">Jessica Cline-Thomas</div>
                 <div class="eboard-position">Audio Director</div>
-                <div class="eboard-bio">Ensuring exceptional sound quality and audio production for all FPS projects.</div>
+                <div class="eboard-bio">Cinema<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -444,7 +578,7 @@
                 </div>
                 <div class="eboard-name">Jake Termine</div>
                 <div class="eboard-position">Casting Director</div>
-                <div class="eboard-bio">Theatre, Acting, and Directing Major. Finding the perfect talent for every production.</div>
+                <div class="eboard-bio">Theatre, Acting, and Directing<br>Junior</div>
             </div>
             
             <div class="eboard-card">
@@ -453,7 +587,7 @@
                 </div>
                 <div class="eboard-name">Jake Wooding</div>
                 <div class="eboard-position">Writing Director</div>
-                <div class="eboard-bio">English Major, Senior. Crafting compelling scripts and narratives for our films.</div>
+                <div class="eboard-bio">English<br>Senior</div>
             </div>
             
             
@@ -464,7 +598,7 @@
                 </div>
                 <div class="eboard-name">Aidan Grohman</div>
                 <div class="eboard-position">Cinematography & Lighting</div>
-                <div class="eboard-bio">Cinema Major. Creating stunning visuals through expert cinematography and lighting design.</div>
+                <div class="eboard-bio">Cinema</div>
             </div>
             
             <div class="eboard-card">
@@ -473,7 +607,7 @@
                 </div>
                 <div class="eboard-name">Soleil</div>
                 <div class="eboard-position">Graphic Design</div>
-                <div class="eboard-bio">Graphic Design Major with Cinema Minor, Senior. Creating visual identity and promotional materials.</div>
+                <div class="eboard-bio">Graphic Design with Cinema Minor<br>Senior</div>
             </div>
             
             <div class="eboard-card">
@@ -482,7 +616,7 @@
                 </div>
                 <div class="eboard-name">Gefen</div>
                 <div class="eboard-position">Acting & Directing</div>
-                <div class="eboard-bio">Acting and Directing Major, Sophomore. Bringing characters to life both on screen and behind the camera.</div>
+                <div class="eboard-bio">Acting and Directing<br>Sophomore</div>
             </div>
             
             <div class="eboard-card">
@@ -491,7 +625,7 @@
                 </div>
                 <div class="eboard-name">Alexander Rodriguez</div>
                 <div class="eboard-position">Intern</div>
-                <div class="eboard-bio">Cinema Major, Senior (Transfer). Learning and contributing to all aspects of film production.</div>
+                <div class="eboard-bio">Cinema<br>Senior</div>
             </div>
             
             <div class="eboard-card">
@@ -500,7 +634,7 @@
                 </div>
                 <div class="eboard-name">Andrea Hsu</div>
                 <div class="eboard-position">Intern</div>
-                <div class="eboard-bio">Cinema and Pre-Law Major, Freshman. Exploring the intersection of film and legal studies.</div>
+                <div class="eboard-bio">Cinema and Pre-Law<br>Freshman</div>
             </div>
             
             <div class="eboard-card">
@@ -509,7 +643,7 @@
                 </div>
                 <div class="eboard-name">Jackson Becker</div>
                 <div class="eboard-position">Intern</div>
-                <div class="eboard-bio">Cinema Major. Gaining hands-on experience in all aspects of film production.</div>
+                <div class="eboard-bio">Cinema<br>Freshman</div>
             </div>
             
             <div class="eboard-card">
@@ -518,7 +652,7 @@
                 </div>
                 <div class="eboard-name">Juliana Davidman</div>
                 <div class="eboard-position">Intern</div>
-                <div class="eboard-bio">Social Work Major, Freshman. Bringing a unique perspective to storytelling and community engagement.</div>
+                <div class="eboard-bio">Social Work<br>Freshman</div>
             </div>
             
             
@@ -542,6 +676,41 @@
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+        const mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Mobile productions dropdown toggle
+        mobileProductionsToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileProductionsToggle.classList.toggle('active');
+            mobileProductionsDropdown.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link (except dropdown toggle)
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
             }
         });
     </script>

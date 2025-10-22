@@ -105,6 +105,122 @@
             color: var(--primary-color);
         }
 
+        /* --- Mobile Menu --- */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            margin: 20px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-dropdown {
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 200px;
+        }
+
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+
+        .mobile-dropdown a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
         /* --- Dropdown Menu --- */
         .dropdown {
             position: relative;
@@ -331,9 +447,8 @@
         }
 
         #join {
-            background-color: var(--dark-gray);
+            background-color: var(--dark-color);
             padding: 60px 0;
-            margin-top: 40px;
         }
 
         /* Remove vertical accent line from Join section heading */
@@ -576,16 +691,19 @@
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
             .main-header {
-                flex-direction: column;
-                padding: 15px;
+                flex-direction: row;
+                padding: 15px 20px;
+                justify-content: space-between;
             }
-            .main-nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
+            
+            .main-nav {
+                display: none;
             }
-            .main-nav ul li {
-                margin: 0 10px;
+            
+            .mobile-menu-toggle {
+                display: flex;
             }
+            
             .dropdown-content {
                 position: static;
                 display: none;
@@ -652,7 +770,30 @@
                 <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li>
+                <a href="#films" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown">
+                    <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
+                    <a href="peak-cinema.html">Peak Cinema</a>
+                </div>
+            </li>
+            <li><a href="#meetings">Meeting & Events</a></li>
+            <li><a href="pitch-production.html">Pitch</a></li>
+            <li><a href="casting.html">Casting</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+        </ul>
+    </div>
 
     <section class="hero" id="home">
         <div class="hero-slideshow">
@@ -670,18 +811,10 @@
                     <a href="peak-cinema.html" class="btn">Listen Now</a>
                 </div>
             </div>
-            <div class="hero-slide hero-slide-3">
-                <div class="hero-content">
-                    <h1>THE JOHNNY CHARISMA SHOW</h1>
-                    <p>The failed comedian turned late-night show host, begins his journey, as he and newly hired sidekick Logan Kelso welcome their first guest, pop-star Luma Astrella. However, something sinister lurks in the shadows, and threatens Johnny's new career. First episode out now.</p>
-                    <a href="index.html#films" class="btn">View Productions</a>
-                </div>
-            </div>
         </div>
         <div class="hero-nav">
             <div class="hero-nav-dot active" data-slide="0"></div>
             <div class="hero-nav-dot" data-slide="1"></div>
-            <div class="hero-nav-dot" data-slide="2"></div>
         </div>
     </section>
 
@@ -704,15 +837,6 @@
                 <div class="film-details">
                     <div class="film-title">Peak Cinema</div>
                     <div class="film-meta">2025 • Podcast</div>
-                </div>
-            </div>
-            <div class="film-card" role="group" tabindex="0">
-                <div class="film-thumb">
-                    <img src="JohnnyCharismaThumbnail.jpg" alt="The Johnny Charisma Show Thumbnail">
-                </div>
-                <div class="film-details">
-                    <div class="film-title">The Johnny Charisma Show</div>
-                    <div class="film-meta">2025 • Drama</div>
                 </div>
             </div>
         </div>
@@ -770,7 +894,7 @@
             <div style="margin-top: 30px; padding: 20px; background-color: var(--dark-gray); border-radius: 8px; border: 1px solid #333;">
                 <h3 style="margin-bottom: 15px; color: #fff;">Want to Join the Club?</h3>
                 <p style="margin-bottom: 15px; color: #ccc;">Come to our next meeting! We welcome students of all skill levels. Whether you're a cinema major or have never touched a camera, there's a role for you here.</p>
-                <p style="color: var(--primary-color); font-weight: 600;">Every Tuesday at 7:00 PM • Student Union Building, Room 205</p>
+                <p style="color: var(--primary-color); font-weight: 600;">Every Wednesday at 7:00 PM • Student Union Building, Room 205</p>
             </div>
         </div>
     </section>
@@ -835,6 +959,41 @@
         });
 
         // Google Calendar integration is now handled via iframe embed
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+        const mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Mobile productions dropdown toggle
+        mobileProductionsToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileProductionsToggle.classList.toggle('active');
+            mobileProductionsDropdown.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link (except dropdown toggle)
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
     </script>
     
     <!-- Google Calendar API Integration -->
