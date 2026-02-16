@@ -589,43 +589,6 @@
 
     <script src="productions-data.js"></script>
     <script>
-        // #region agent log
-        function _agentLogHeaderNavGap() {
-            var header = document.getElementById('mainHeader');
-            var productionNav = document.querySelector('.production-nav');
-            if (!header || !productionNav) return;
-            var hr = header.getBoundingClientRect();
-            var nr = productionNav.getBoundingClientRect();
-            var hStyle = window.getComputedStyle(header);
-            var nStyle = window.getComputedStyle(productionNav);
-            var payload = {
-                sessionId: 'debug-session',
-                runId: 'gap-debug',
-                hypothesisId: 'H1-H5',
-                location: 'productions.html:header-nav-gap',
-                message: 'header and production-nav layout',
-                data: {
-                    headerTop: hr.top,
-                    headerHeight: hr.height,
-                    headerPaddingTop: hStyle.paddingTop,
-                    navTop: nr.top,
-                    navHeight: nr.height,
-                    navComputedTop: nStyle.top,
-                    navMarginTop: nStyle.marginTop,
-                    navPaddingTop: nStyle.paddingTop,
-                    gap: nr.top - (hr.top + hr.height),
-                    scrollY: window.scrollY
-                },
-                timestamp: Date.now()
-            };
-            fetch('http://127.0.0.1:7242/ingest/c985bb03-2f90-4c30-a39c-75bd35cd9473', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function() {});
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            _agentLogHeaderNavGap();
-            window.addEventListener('scroll', function() { _agentLogHeaderNavGap(); }, { passive: true });
-        });
-        // #endregion
-
         function extractYouTubeId(input) {
             if (!input) return '';
             const str = String(input);
