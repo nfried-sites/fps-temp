@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Crew — FPS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        a { color: var(--primary-color); text-decoration: none; }
+        a:hover { color: #008866; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Header */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: clamp(10px, 1vw, 20px) clamp(16px, 2.5vw, 40px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--dark-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .logo {
+            font-size: clamp(1rem, 0.7rem + 0.7vw, 1.8rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul { list-style: none; display: flex; }
+        .main-nav ul li { margin-left: clamp(6px, 0.5rem + 0.8vw, 25px); }
+        .main-nav ul li a {
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem);
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .main-nav ul li a:hover { color: var(--primary-color); }
+
+        .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: clamp(5px, 0.5vw, 8px) clamp(8px, 0.8vw, 15px) !important;
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem) !important;
+            transition: all 0.3s ease;
+        }
+        .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dark-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            border: 1px solid #333;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+        .dropdown-content a {
+            color: var(--light-gray);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .dropdown .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown:hover > a { color: var(--primary-color); }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) { opacity: 0; }
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .mobile-menu.active { display: flex; opacity: 1; }
+        .mobile-menu ul { list-style: none; text-align: center; }
+        .mobile-menu ul li { margin: 20px 0; }
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .mobile-menu ul li a:hover { color: var(--primary-color); }
+        .mobile-menu .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px 20px !important;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .mobile-menu .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .mobile-dropdown.active { max-height: 200px; padding-top: 10px; }
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+        .mobile-dropdown a:hover { color: var(--primary-color) !important; }
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 20px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-color) 0%, #0a1f1a 50%, var(--dark-color) 100%);
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+        .page-header p {
+            max-width: 640px;
+            margin: 0 auto;
+            color: var(--light-gray);
+            font-size: 1.05rem;
+        }
+
+        /* Controls */
+        .controls-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--dark-gray);
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        .filter-group label { font-weight: 500; }
+        .filter-group select,
+        .filter-group input[type="text"] {
+            padding: 10px 14px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: var(--dark-color);
+            color: var(--light-gray);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+        .filter-group input[type="text"] {
+            min-width: 200px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            font-family: inherit;
+        }
+        .btn:hover {
+            background: #004A36;
+            transform: scale(1.05);
+        }
+
+        /* Projects Feed */
+        .projects-feed {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .project-card {
+            flex: 1 1 320px;
+            max-width: 100%;
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .project-card.fps-priority {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 1px var(--primary-color);
+        }
+        .priority-badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        .project-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .project-logline {
+            color: var(--light-gray);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+        .meta-value { font-size: 0.9rem; }
+        .roles-section { margin-bottom: 16px; }
+        .roles-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .roles-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--dark-color);
+            border: 1px solid #333;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            user-select: none;
+            cursor: default;
+        }
+        .role-badge.filled {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        .project-actions { margin-top: 16px; }
+        .contact-info {
+            display: none;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #333;
+        }
+        .contact-info.show { display: block; }
+        .contact-info p { margin: 6px 0; font-size: 0.95rem; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+        }
+        .empty-state h3 { margin-bottom: 12px; color: #fff; }
+        .empty-state p { color: #888; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--light-gray);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover { color: #fff; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: var(--dark-color);
+            color: var(--light-gray);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-group.checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group.checkbox-group input { width: auto; }
+        .roles-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .roles-input-group select,
+        .roles-input-group input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            background: var(--dark-color);
+            color: var(--light-gray);
+            font-family: inherit;
+        }
+        .added-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .added-role {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--dark-color);
+            border: 1px solid #333;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .remove-role {
+            background: none;
+            border: none;
+            color: #c00;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            line-height: 1;
+        }
+        .remove-role:hover { color: #f44; }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover { color: var(--primary-color); }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        @media (max-width: 950px) {
+            .main-header { padding: 15px 20px; }
+            .main-nav { display: none; }
+            .mobile-menu-toggle { display: flex; }
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                padding: 5px 0;
+            }
+            .dropdown:hover .dropdown-content { display: block; }
+            .dropdown-content a { padding: 8px 15px; font-size: 0.9rem; }
+            .page-header { padding-top: 100px; }
+            .page-header h1 { font-size: 1.6rem; }
+            .controls-section { flex-direction: column; align-items: stretch; }
+            .filter-group { flex-direction: column; }
+            .filter-group input[type="text"] { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">Film & Production Society</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="productions.html">Productions</a>
+                    <div class="dropdown-content" id="productions-dropdown"></div>
+                </li>
+                <li><a href="index.html#meetings">Meeting & Events</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+            </ul>
+        </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li>
+                <a href="productions.html" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown"></div>
+            </li>
+            <li><a href="index.html#meetings">Meeting & Events</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+        </ul>
+    </div>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1>Find Your Crew</h1>
+            <p>The Unified Film Production Board — A centralized hub for Binghamton University cinema students to post projects, find crew members, and apply for roles across official FPS productions and independent student films.</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="filter-group">
+                <label for="roleFilter">Filter by Role:</label>
+                <select id="roleFilter">
+                    <option value="">All Roles</option>
+                    <option value="Director">Director</option>
+                    <option value="Producer">Producer</option>
+                    <option value="Cinematographer">Cinematographer</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Sound Designer">Sound Designer</option>
+                    <option value="Gaffer">Gaffer</option>
+                    <option value="Production Designer">Production Designer</option>
+                    <option value="Script Supervisor">Script Supervisor</option>
+                    <option value="PA">PA</option>
+                    <option value="Writer">Writer</option>
+                    <option value="Actor">Actor</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search projects...">
+            </div>
+            <button class="btn" id="postProjectBtn">Post a Project</button>
+        </div>
+
+        <!-- Projects Feed -->
+        <div class="projects-feed" id="projectsFeed">
+            <!-- Projects will be dynamically loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <h3>No projects found</h3>
+            <p>Try adjusting your filters or be the first to post a project!</p>
+        </div>
+    </div>
+
+    <!-- Post Project Modal -->
+    <div class="modal" id="postProjectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Post a Project</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title *</label>
+                    <input type="text" id="projectTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectLogline">Logline *</label>
+                    <textarea id="projectLogline" required placeholder="A brief description of your project..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="shootDates">Shoot Dates *</label>
+                    <input type="text" id="shootDates" required placeholder="e.g., March 15-20, 2025">
+                    <div class="form-group checkbox-group" style="margin-top: 10px; margin-bottom: 0;">
+                        <input type="checkbox" id="shootDatesTBD">
+                        <label for="shootDatesTBD">TBD (To Be Determined)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contactName">Your Name *</label>
+                    <input type="text" id="contactName" required>
+                </div>
+                <div class="form-group">
+                    <label for="showrunner">Showrunner *</label>
+                    <input type="text" id="showrunner" required placeholder="Name of showrunner">
+                    <div class="form-group checkbox-group" style="margin-top: 10px; margin-bottom: 0;">
+                        <input type="checkbox" id="iAmShowrunner">
+                        <label for="iAmShowrunner">I am the showrunner</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email *</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Contact Phone (Optional)</label>
+                    <input type="tel" id="contactPhone" placeholder="(607) 555-0123">
+                </div>
+                <div class="form-group">
+                    <label>Roles Needed *</label>
+                    <div class="roles-input-group">
+                        <input type="text" id="roleInput" list="roleOptions" placeholder="Type or choose a role..." autocomplete="off">
+                        <datalist id="roleOptions">
+                            <option value="Director">
+                            <option value="Producer">
+                            <option value="Cinematographer">
+                            <option value="Editor">
+                            <option value="Sound Designer">
+                            <option value="Gaffer">
+                            <option value="Production Designer">
+                            <option value="Script Supervisor">
+                            <option value="PA">
+                            <option value="Writer">
+                            <option value="Actor">
+                        </datalist>
+                        <button type="button" id="addRoleBtn">Add Role</button>
+                    </div>
+                    <div class="added-roles" id="addedRoles"></div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="isFPSOfficial">
+                    <label for="isFPSOfficial">This is an Official FPS Production (requires admin verification)</label>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Post Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/binghamtonfps/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@FPSBINGHAMTON" aria-label="YouTube" target="_blank" rel="noopener noreferrer">YT</a>
+            <a href="https://discord.com/invite/2mpbGwKZBn" aria-label="Discord" target="_blank" rel="noopener noreferrer">DS</a>
+        </div>
+        <p class="copyright">&copy; 2025 Binghamton University Film & Production Society. All Rights Reserved.</p>
+    </footer>
+
+    <script src="productions-data.js"></script>
+    <script src="nav-productions.js"></script>
+    <script src="crew-board-data.js"></script>
+    <script>
+        // Initialize data structure if it doesn't exist
+        if (typeof CREW_BOARD_PROJECTS === 'undefined') {
+            window.CREW_BOARD_PROJECTS = [];
+        }
+
+        // Load projects from localStorage
+        function loadProjects() {
+            const stored = localStorage.getItem('crewBoardProjects');
+            if (stored) {
+                window.CREW_BOARD_PROJECTS = JSON.parse(stored);
+            }
+        }
+
+        // Save projects to localStorage
+        function saveProjects() {
+            localStorage.setItem('crewBoardProjects', JSON.stringify(window.CREW_BOARD_PROJECTS));
+        }
+
+        // Initialize projects array
+        loadProjects();
+
+        // Google Form URL for Apply / Interested (replace with your form's link)
+        const CREW_APPLY_FORM_URL = 'https://forms.gle/YOUR_FORM_ID_HERE';
+
+        // Role management for form
+        let selectedRoles = [];
+
+        function addRoleFromInput() {
+            const roleInput = document.getElementById('roleInput');
+            const role = roleInput.value.trim();
+            if (role && !selectedRoles.includes(role)) {
+                selectedRoles.push(role);
+                updateRolesDisplay();
+                roleInput.value = '';
+            }
+        }
+
+        document.getElementById('addRoleBtn').addEventListener('click', addRoleFromInput);
+
+        document.getElementById('roleInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addRoleFromInput();
+            }
+        });
+
+        function updateRolesDisplay() {
+            const container = document.getElementById('addedRoles');
+            container.innerHTML = selectedRoles.map(role => `
+                <div class="added-role">
+                    <span>${role}</span>
+                    <button type="button" class="remove-role" data-role="${role}">&times;</button>
+                </div>
+            `).join('');
+            
+            container.querySelectorAll('.remove-role').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const role = this.getAttribute('data-role');
+                    selectedRoles = selectedRoles.filter(r => r !== role);
+                    updateRolesDisplay();
+                });
+            });
+        }
+
+        // Modal functionality
+        const modal = document.getElementById('postProjectModal');
+        const postBtn = document.getElementById('postProjectBtn');
+        const closeBtn = document.getElementById('closeModal');
+
+        postBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        function resetProjectForm() {
+            document.getElementById('projectForm').reset();
+            selectedRoles = [];
+            updateRolesDisplay();
+            document.getElementById('shootDates').disabled = false;
+            document.getElementById('shootDates').setAttribute('required', 'required');
+            document.getElementById('showrunner').disabled = false;
+            document.getElementById('showrunner').setAttribute('required', 'required');
+        }
+
+        closeBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            resetProjectForm();
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                resetProjectForm();
+            }
+        });
+
+        // Form submission
+        document.getElementById('shootDatesTBD').addEventListener('change', function() {
+            const shootInput = document.getElementById('shootDates');
+            if (this.checked) {
+                shootInput.value = 'TBD';
+                shootInput.removeAttribute('required');
+                shootInput.disabled = true;
+            } else {
+                shootInput.value = '';
+                shootInput.setAttribute('required', 'required');
+                shootInput.disabled = false;
+            }
+        });
+
+        document.getElementById('iAmShowrunner').addEventListener('change', function() {
+            const showrunnerInput = document.getElementById('showrunner');
+            if (this.checked) {
+                showrunnerInput.value = document.getElementById('contactName').value;
+                showrunnerInput.removeAttribute('required');
+                showrunnerInput.disabled = true;
+            } else {
+                showrunnerInput.value = '';
+                showrunnerInput.setAttribute('required', 'required');
+                showrunnerInput.disabled = false;
+            }
+        });
+
+        document.getElementById('contactName').addEventListener('input', function() {
+            if (document.getElementById('iAmShowrunner').checked) {
+                document.getElementById('showrunner').value = this.value;
+            }
+        });
+
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const shootDatesEl = document.getElementById('shootDates');
+            const shootDates = document.getElementById('shootDatesTBD').checked ? 'TBD' : shootDatesEl.value;
+            const showrunner = document.getElementById('iAmShowrunner').checked
+                ? document.getElementById('contactName').value
+                : document.getElementById('showrunner').value;
+            
+            const project = {
+                id: Date.now().toString(),
+                title: document.getElementById('projectTitle').value,
+                logline: document.getElementById('projectLogline').value,
+                shootDates: shootDates,
+                showrunner: showrunner,
+                contactName: document.getElementById('contactName').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                contactPhone: document.getElementById('contactPhone').value || null,
+                roles: selectedRoles.map(role => ({ name: role, filled: false })),
+                isFPSOfficial: document.getElementById('isFPSOfficial').checked,
+                isVerified: false, // Admin verification required for official FPS projects
+                postedDate: new Date().toISOString()
+            };
+
+            window.CREW_BOARD_PROJECTS.push(project);
+            saveProjects();
+            
+            modal.classList.remove('active');
+            resetProjectForm();
+            
+            renderProjects();
+            
+            alert('Project posted successfully! ' + (project.isFPSOfficial ? 'Your project is pending admin verification for Official FPS status.' : ''));
+        });
+
+        // Render projects
+        function renderProjects(filterRole = '', searchTerm = '') {
+            const feed = document.getElementById('projectsFeed');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredProjects = [...window.CREW_BOARD_PROJECTS];
+            
+            // Sort: verified official FPS projects first, then others
+            filteredProjects.sort((a, b) => {
+                if (a.isFPSOfficial && a.isVerified && !(b.isFPSOfficial && b.isVerified)) return -1;
+                if (b.isFPSOfficial && b.isVerified && !(a.isFPSOfficial && a.isVerified)) return 1;
+                return new Date(b.postedDate) - new Date(a.postedDate);
+            });
+            
+            // Apply filters
+            if (filterRole) {
+                filteredProjects = filteredProjects.filter(project => 
+                    project.roles.some(role => role.name === filterRole && !role.filled)
+                );
+            }
+            
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredProjects = filteredProjects.filter(project => 
+                    project.title.toLowerCase().includes(term) ||
+                    project.logline.toLowerCase().includes(term)
+                );
+            }
+            
+            if (filteredProjects.length === 0) {
+                feed.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            feed.style.display = 'flex';
+            emptyState.style.display = 'none';
+            
+            feed.innerHTML = filteredProjects.map(project => {
+                const isPriority = project.isFPSOfficial && project.isVerified;
+                const availableRoles = project.roles.filter(r => !r.filled);
+                
+                return `
+                    <div class="project-card ${isPriority ? 'fps-priority' : ''}" data-project-id="${project.id}">
+                        ${isPriority ? '<div class="priority-badge">FPS Production</div>' : ''}
+                        <div class="project-header">
+                            <div>
+                                <h3 class="project-title">${project.title}</h3>
+                                <p class="project-logline">${project.logline}</p>
+                            </div>
+                        </div>
+                        <div class="project-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Showrunner</span>
+                                <span class="meta-value">${project.showrunner || '—'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Shoot Dates</span>
+                                <span class="meta-value">${project.shootDates}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Posted</span>
+                                <span class="meta-value">${new Date(project.postedDate).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="roles-section">
+                            <div class="roles-label">Roles Needed</div>
+                            <div class="roles-list">
+                                ${project.roles.map(role => `
+                                    <span class="role-badge ${role.filled ? 'filled' : ''}">${role.name}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="project-actions">
+                            <a href="${CREW_APPLY_FORM_URL}" class="btn" target="_blank" rel="noopener">Apply / Interested</a>
+                        </div>
+                        <div class="contact-info" id="contact-${project.id}">
+                            <p><strong>Contact:</strong> ${project.contactName}</p>
+                            <p><strong>Email:</strong> <a href="mailto:${project.contactEmail}">${project.contactEmail}</a></p>
+                            ${project.contactPhone ? `<p><strong>Phone:</strong> <a href="tel:${project.contactPhone}">${project.contactPhone}</a></p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter and search functionality
+        document.getElementById('roleFilter').addEventListener('change', function() {
+            const role = this.value;
+            const searchTerm = document.getElementById('searchInput').value;
+            renderProjects(role, searchTerm);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value;
+            const role = document.getElementById('roleFilter').value;
+            renderProjects(role, searchTerm);
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu functionality
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+        const mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileMenuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        mobileProductionsToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mobileProductionsToggle.classList.toggle('active');
+            mobileProductionsDropdown.classList.toggle('active');
+        });
+
+        mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Initial render
+        renderProjects();
+    </script>
+</body>
+</html>

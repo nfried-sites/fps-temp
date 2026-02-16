@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!-- Productions page — content from productions-data.js. Add production there; topbar updates on all pages. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productions — FPS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container > * {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Header */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: clamp(10px, 1vw, 20px) clamp(16px, 2.5vw, 40px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--dark-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .logo {
+            font-size: clamp(1rem, 0.7rem + 0.7vw, 1.8rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: clamp(6px, 0.5rem + 0.8vw, 25px);
+        }
+
+        .main-nav ul li a {
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem);
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: clamp(5px, 0.5vw, 8px) clamp(8px, 0.8vw, 15px) !important;
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dark-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            border: 1px solid #333;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: var(--light-gray);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover > a {
+            color: var(--primary-color);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            margin: 20px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px 20px !important;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .mobile-menu .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 200px;
+            padding-top: 10px;
+        }
+
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+
+        .mobile-dropdown a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Production Navigation – snug under header, no gap (top must match header height) */
+        .production-nav {
+            position: sticky;
+            top: 51px;
+            margin-top: -1px;
+            background-color: var(--dark-color);
+            padding-top: 6px;
+            padding-bottom: 6px;
+            z-index: 100;
+            border-bottom: 2px solid #333;
+            margin-bottom: 30px;
+        }
+
+        .production-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .production-nav a {
+            color: var(--light-gray);
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background-color: var(--dark-gray);
+        }
+
+        .production-nav a:hover,
+        .production-nav a.active {
+            color: #fff;
+            background-color: var(--primary-color);
+        }
+
+        /* Production Section */
+        .production-section {
+            scroll-margin-top: 100px;
+            padding: 40px 0;
+        }
+
+        .production-section:nth-child(even) {
+            background-color: var(--dark-gray);
+        }
+
+        /* Match title and description width to production-row (600 + 30 gap + 250 = 880px) */
+        .production-section .container > h2,
+        .production-section .container > p {
+            max-width: 880px;
+        }
+
+        .production-row-label {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            max-width: 880px;
+        }
+
+        .production-row {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .production-video {
+            flex: 0 1 600px;
+            min-width: 0;
+        }
+
+        .embed {
+            aspect-ratio: 16/9;
+            width: 100%;
+            max-height: 340px;
+            border: none;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 10px;
+        }
+
+        .video-title {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        .production-info {
+            flex: 0 0 250px;
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .production-info h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+        }
+
+        .info-item strong {
+            color: #fff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 6px;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .btn:hover {
+            background: #004A36;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+        
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 950px) {
+            .main-header {
+                padding: 15px 20px;
+            }
+            
+            .main-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding: 5px 0;
+            }
+            
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            
+            .dropdown-content a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .production-nav {
+                top: 60px;
+            }
+            
+            .production-nav ul {
+                gap: 10px;
+            }
+            
+            .production-nav a {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .production-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .production-video {
+                flex: 1;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .production-info {
+                flex: 1;
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .production-video {
+                max-width: 100%;
+            }
+            
+            .embed {
+                max-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">Film & Production Society</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="productions.html">Productions</a>
+                    <div class="dropdown-content" id="productions-dropdown"></div>
+                </li>
+                <li><a href="index.html#meetings">Meeting & Events</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+            </ul>
+        </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li>
+                <a href="productions.html" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown">
+                    <!-- Populated by PRODUCTIONS_DATA -->
+                </div>
+            </li>
+            <li><a href="index.html#meetings">Meeting & Events</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+        </ul>
+    </div>
+
+    <!-- Production Navigation (auto-generated from PRODUCTIONS_DATA below) -->
+    <div class="production-nav">
+        <div class="container">
+            <ul id="production-nav-list"></ul>
+        </div>
+    </div>
+
+    <!-- Production sections (auto-generated from PRODUCTIONS_DATA below) -->
+    <div id="productions-container"></div>
+
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/binghamtonfps/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@FPSBINGHAMTON" aria-label="YouTube" target="_blank" rel="noopener noreferrer">YT</a>
+            <a href="https://discord.com/invite/2mpbGwKZBn" aria-label="Discord" target="_blank" rel="noopener noreferrer">DS</a>
+        </div>
+        <p class="copyright">&copy; 2025 Binghamton University Film & Production Society. All Rights Reserved.</p>
+    </footer>
+
+    <script src="productions-data.js"></script>
+    <script>
+        // #region agent log
+        function _agentLogHeaderNavGap() {
+            var header = document.getElementById('mainHeader');
+            var productionNav = document.querySelector('.production-nav');
+            if (!header || !productionNav) return;
+            var hr = header.getBoundingClientRect();
+            var nr = productionNav.getBoundingClientRect();
+            var hStyle = window.getComputedStyle(header);
+            var nStyle = window.getComputedStyle(productionNav);
+            var payload = {
+                sessionId: 'debug-session',
+                runId: 'gap-debug',
+                hypothesisId: 'H1-H5',
+                location: 'productions.html:header-nav-gap',
+                message: 'header and production-nav layout',
+                data: {
+                    headerTop: hr.top,
+                    headerHeight: hr.height,
+                    headerPaddingTop: hStyle.paddingTop,
+                    navTop: nr.top,
+                    navHeight: nr.height,
+                    navComputedTop: nStyle.top,
+                    navMarginTop: nStyle.marginTop,
+                    navPaddingTop: nStyle.paddingTop,
+                    gap: nr.top - (hr.top + hr.height),
+                    scrollY: window.scrollY
+                },
+                timestamp: Date.now()
+            };
+            fetch('http://127.0.0.1:7242/ingest/c985bb03-2f90-4c30-a39c-75bd35cd9473', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(function() {});
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            _agentLogHeaderNavGap();
+            window.addEventListener('scroll', function() { _agentLogHeaderNavGap(); }, { passive: true });
+        });
+        // #endregion
+
+        function extractYouTubeId(input) {
+            if (!input) return '';
+            const str = String(input);
+            if (!/\s/.test(str) && !str.includes('/')) return str;
+            const m = str.match(/[?&]v=([a-zA-Z0-9_-]{6,})/) || str.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+            return m ? m[1] : str;
+        }
+
+        function renderProductions() {
+            const container = document.getElementById('productions-container');
+            const navList = document.getElementById('production-nav-list');
+            const dropdown = document.getElementById('productions-dropdown');
+            const mobileDropdown = document.getElementById('mobileProductionsDropdown');
+
+            if (!container || !navList) return;
+
+            container.innerHTML = '';
+            navList.innerHTML = '';
+            if (dropdown) dropdown.innerHTML = '';
+            if (mobileDropdown) mobileDropdown.innerHTML = '';
+
+            PRODUCTIONS.forEach(p => {
+                // Nav link
+                const navLi = document.createElement('li');
+                navLi.innerHTML = `<a href="#${p.id}">${p.title}</a>`;
+                navList.appendChild(navLi);
+
+                // Header dropdown
+                if (dropdown) {
+                    const a = document.createElement('a');
+                    a.href = `productions.html#${p.id}`;
+                    a.textContent = p.title;
+                    dropdown.appendChild(a);
+                }
+
+                // Mobile dropdown
+                if (mobileDropdown) {
+                    const a = document.createElement('a');
+                    a.href = `productions.html#${p.id}`;
+                    a.textContent = p.title;
+                    mobileDropdown.appendChild(a);
+                }
+
+                // Section
+                const section = document.createElement('section');
+                section.id = p.id;
+                section.className = 'production-section';
+
+                const embedId = typeof p.featuredVideo.id === 'string' ? extractYouTubeId(p.featuredVideo.id) : p.featuredVideo.id;
+
+                section.innerHTML = `
+                    <div class="container">
+                        <h2>${p.title}</h2>
+                        <p style="margin-bottom: 20px; font-size: 0.95rem; color: #ccc; width: 100%;">${p.description}</p>
+                        <h3 class="production-row-label">${p.featuredVideoLabel || 'Featured Video'}</h3>
+                        <div class="production-row">
+                            <div class="production-video">
+                                <div class="embed">
+                                    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${embedId}"
+                                        title="${p.title} - Featured Video" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                </div>
+                                <p class="video-title">${p.featuredVideo.title || ''}</p>
+                            </div>
+                            <div class="production-info">
+                                <h3>${p.infoLabel}</h3>
+                                ${p.infoItems.map(item => `<div class="info-item"><strong>${item.label}:</strong> ${item.value}</div>`).join('')}
+                                ${p.ctaLink ? `<div style="margin-top: 15px; text-align: center;">
+                                    <a href="${p.ctaLink}" target="_blank" rel="noopener noreferrer" class="btn ${p.ctaClass || ''}" style="padding: 10px 20px; font-size: 0.85rem; display: inline-block;">${p.ctaText}</a>
+                                </div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProductions();
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('mainHeader');
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
+
+                const sections = document.querySelectorAll('.production-section');
+                const navLinks = document.querySelectorAll('.production-nav a');
+                let current = '';
+                sections.forEach(section => {
+                    if (window.scrollY >= section.offsetTop - 150) current = section.id;
+                });
+                if (!current && sections.length) current = sections[0].id;
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+                });
+            });
+
+            window.dispatchEvent(new Event('scroll'));
+
+            // Mobile menu
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+            const mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+            });
+
+            mobileProductionsToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                mobileProductionsToggle.classList.toggle('active');
+                mobileProductionsDropdown.classList.toggle('active');
+            });
+
+            mobileMenu.querySelectorAll('a:not(.mobile-dropdown-toggle)').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

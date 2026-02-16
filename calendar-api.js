@@ -5,7 +5,9 @@ class CalendarAPI {
     constructor() {
         // Your Google Calendar ID (extracted from the existing embed)
         this.calendarId = 'c_5bf01e11b75b1af71bae99429a7c9bcf81279ea873030f5d6add82eddf3e71c4@group.calendar.google.com';
-        this.apiKey = 'AIzaSyBxpiTwTM5Bu6zyIIFGNtTeZ5I9p_njpqQ'; // Temporary: will be moved to Cloudflare Pages secret
+        // Set via Cloudflare Pages env (GOOGLE_CALENDAR_API_KEY) and fetchApiKey(), or leave null for fallback events.
+        // this.apiKey = 'AIzaSyBxpiTwTM5Bu6zyIIFGNtTeZ5I9p_njpqQ'; // real key – uncomment for local dev only; do not push
+        this.apiKey = null;
         this.baseUrl = 'https://www.googleapis.com/calendar/v3/calendars';
         this.eventsContainer = null;
     }

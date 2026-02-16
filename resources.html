@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources — FPS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-color: #005A43;
+            --dark-color: #141414;
+            --light-gray: #e0e0e0;
+            --dark-gray: #222222;
+            --font-family: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--dark-color);
+            color: var(--light-gray);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        h1, h2 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header & Navigation */
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: clamp(10px, 1vw, 20px) clamp(16px, 2.5vw, 40px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--dark-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .main-header.scrolled {
+            background-color: var(--dark-color);
+        }
+
+        .logo {
+            font-size: clamp(1rem, 0.7rem + 0.7vw, 1.8rem);
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .main-nav ul li {
+            margin-left: clamp(6px, 0.5rem + 0.8vw, 25px);
+        }
+
+        .main-nav ul li a {
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem);
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: clamp(5px, 0.5vw, 8px) clamp(8px, 0.8vw, 15px) !important;
+            font-size: clamp(0.7rem, 0.5rem + 0.5vw, 1rem) !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--dark-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            border-radius: 6px;
+            border: 1px solid #333;
+            z-index: 1000;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: var(--light-gray);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .dropdown .dropdown-content a:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover > a {
+            color: var(--primary-color);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background-color: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: var(--dark-color);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+        }
+
+        .mobile-menu ul li {
+            margin: 20px 0;
+        }
+
+        .mobile-menu ul li a {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu .nav-find-crew {
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            padding: 10px 20px !important;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .mobile-menu .nav-find-crew:hover {
+            background-color: var(--primary-color);
+            color: #fff !important;
+        }
+
+        .mobile-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            padding-top: 0;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-dropdown.active {
+            max-height: 200px;
+            padding-top: 10px;
+        }
+
+        .mobile-dropdown a {
+            font-size: 1.2rem !important;
+            color: var(--light-gray) !important;
+            margin: 10px 0;
+            display: block;
+            padding-left: 20px;
+        }
+
+        .mobile-dropdown a:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .mobile-dropdown-toggle {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+        }
+
+        .mobile-dropdown-toggle::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .mobile-dropdown-toggle.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 20px 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--dark-color) 0%, #0a1f1a 50%, var(--dark-color) 100%);
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .page-header p {
+            max-width: 640px;
+            margin: 0 auto;
+            color: var(--light-gray);
+            font-size: 1.05rem;
+        }
+
+        /* Resources toolbar & embed */
+        .resources-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .resources-view-toggle {
+            display: flex;
+            gap: 0;
+        }
+
+        .resources-view-toggle button {
+            padding: 10px 20px;
+            border: 1px solid #333;
+            background: var(--dark-gray);
+            color: var(--light-gray);
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .resources-view-toggle button:first-child {
+            border-radius: 6px 0 0 6px;
+        }
+
+        .resources-view-toggle button:last-child {
+            border-radius: 0 6px 6px 0;
+            margin-left: -1px;
+        }
+
+        .resources-view-toggle button.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
+
+        .resources-embed-wrap {
+            width: 100%;
+            min-height: 520px;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--dark-gray);
+        }
+
+        .resources-embed-wrap iframe {
+            width: 100%;
+            height: 520px;
+            border: none;
+        }
+
+        .resources-embed-wrap[data-view="grid"] iframe {
+            margin-top: -70px;
+        }
+
+        .resources-embed-wrap[data-view="list"] iframe {
+            filter: invert(1) hue-rotate(180deg);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #004A36;
+            transform: scale(1.02);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .resources-setup-msg {
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--dark-gray);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #aaa;
+        }
+
+        .resources-setup-msg h3 {
+            color: var(--light-gray);
+            margin-bottom: 10px;
+        }
+
+        .resources-setup-msg p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .resources-setup-msg code {
+            background: var(--dark-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #333;
+            margin-top: 60px;
+        }
+
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--light-gray);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        @media (max-width: 950px) {
+            .main-header {
+                padding: 15px 20px;
+            }
+            .main-nav {
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+                padding: 5px 0;
+            }
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            .dropdown-content a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+            .resources-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .resources-view-toggle {
+                justify-content: center;
+            }
+            .resources-embed-wrap {
+                height: 450px;
+            }
+            .resources-embed-wrap[data-view="grid"] iframe {
+                height: 520px;
+                margin-top: -70px;
+            }
+            .resources-embed-wrap[data-view="list"] iframe {
+                height: 450px;
+                margin-top: 0;
+                filter: invert(1) hue-rotate(180deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header" id="mainHeader">
+        <div class="logo">Film & Production Society</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="productions.html">Productions</a>
+                    <div class="dropdown-content" id="productions-dropdown"></div>
+                </li>
+                <li><a href="index.html#meetings">Meeting & Events</a></li>
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+            </ul>
+        </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html#home">Home</a></li>
+            <li>
+                <a href="productions.html" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown"></div>
+            </li>
+            <li><a href="index.html#meetings">Meeting & Events</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+            <li><a href="eboard.html">Eboard</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
+        </ul>
+    </div>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Resources</h1>
+            <p>AIDAN GROHMANS DUNGEON OF GOODIES</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="resources-toolbar" id="resourcesToolbar" style="display: none;">
+            <div class="resources-view-toggle" role="group" aria-label="View mode">
+                <button type="button" id="viewGrid" class="active" aria-pressed="true">Grid</button>
+                <button type="button" id="viewList" aria-pressed="false">List</button>
+            </div>
+            <a href="#" id="openFolderLink" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Open folder in Google Drive</a>
+        </div>
+        <div id="resourcesContainer">
+            <div class="resources-embed-wrap" id="resourcesEmbedWrap" data-view="grid" style="display: none;">
+                <iframe id="driveFrame" title="FPS Resources — Google Drive folder (grid view with thumbnails)"></iframe>
+            </div>
+            <div class="resources-setup-msg" id="resourcesSetupMsg" style="display: none;">
+                <h3>Set up the Resources folder</h3>
+                <p>Edit <code>resources-config.js</code> and set Google Drive folder ID.</p>
+                <p>Share the folder so &ldquo;Anyone with the link&rdquo; can view, then use that folder&rsquo;s ID in the config.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="social-links">
+            <a href="https://www.instagram.com/binghamtonfps/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">IG</a>
+            <a href="https://www.youtube.com/@FPSBINGHAMTON" aria-label="YouTube" target="_blank" rel="noopener noreferrer">YT</a>
+            <a href="https://discord.com/invite/2mpbGwKZBn" aria-label="Discord" target="_blank" rel="noopener noreferrer">DS</a>
+        </div>
+        <p class="copyright">&copy; 2025 Binghamton University Film & Production Society. All Rights Reserved.</p>
+    </footer>
+
+    <script src="productions-data.js"></script>
+    <script src="nav-productions.js"></script>
+    <script src="resources-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var folderId = typeof RESOURCES_DRIVE_FOLDER_ID !== 'undefined' ? (RESOURCES_DRIVE_FOLDER_ID || '').trim() : '';
+            var embedWrap = document.getElementById('resourcesEmbedWrap');
+            var setupMsg = document.getElementById('resourcesSetupMsg');
+            var frame = document.getElementById('driveFrame');
+            var openLink = document.getElementById('openFolderLink');
+
+            if (folderId) {
+                var toolbar = document.getElementById('resourcesToolbar');
+                var viewGridBtn = document.getElementById('viewGrid');
+                var viewListBtn = document.getElementById('viewList');
+                var baseEmbedUrl = 'https://drive.google.com/embeddedfolderview?id=' + folderId;
+
+                function setView(mode) {
+                    frame.src = baseEmbedUrl + (mode === 'list' ? '#list' : '#grid');
+                    frame.title = mode === 'list'
+                        ? 'FPS Resources — Google Drive folder (list view)'
+                        : 'FPS Resources — Google Drive folder (grid view with thumbnails)';
+                    if (embedWrap) embedWrap.setAttribute('data-view', mode);
+                    if (viewGridBtn && viewListBtn) {
+                        viewGridBtn.classList.toggle('active', mode === 'grid');
+                        viewGridBtn.setAttribute('aria-pressed', mode === 'grid');
+                        viewListBtn.classList.toggle('active', mode === 'list');
+                        viewListBtn.setAttribute('aria-pressed', mode === 'list');
+                    }
+                }
+
+                setView('grid');
+                embedWrap.style.display = 'block';
+                toolbar.style.display = 'flex';
+                openLink.href = 'https://drive.google.com/drive/folders/' + folderId;
+
+                if (viewGridBtn) viewGridBtn.addEventListener('click', function() { setView('grid'); });
+                if (viewListBtn) viewListBtn.addEventListener('click', function() { setView('list'); });
+            } else {
+                setupMsg.style.display = 'block';
+            }
+
+            window.addEventListener('scroll', function() {
+                var header = document.getElementById('mainHeader');
+                header.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            var mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            var mobileMenu = document.getElementById('mobileMenu');
+            var mobileProductionsToggle = document.getElementById('mobileProductionsToggle');
+            var mobileProductionsDropdown = document.getElementById('mobileProductionsDropdown');
+
+            if (mobileMenuToggle && mobileMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mobileMenuToggle.classList.toggle('active');
+                    mobileMenu.classList.toggle('active');
+                });
+            }
+
+            if (mobileProductionsToggle && mobileProductionsDropdown) {
+                mobileProductionsToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mobileProductionsToggle.classList.toggle('active');
+                    mobileProductionsDropdown.classList.toggle('active');
+                });
+            }
+
+            document.querySelectorAll('.mobile-menu a:not(.mobile-dropdown-toggle)').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (mobileMenuToggle && mobileMenu) {
+                        mobileMenuToggle.classList.remove('active');
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', function(event) {
+                if (mobileMenuToggle && mobileMenu && !mobileMenuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+                    mobileMenuToggle.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

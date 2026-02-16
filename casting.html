@@ -4,486 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casting — FPS</title>
-    <style>
-        /* --- Google Fonts --- */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-
-        /* --- Global Styles & Resets --- */
-        :root {
-            --primary-color: #005A43;
-            --dark-color: #141414;
-            --light-gray: #e0e0e0;
-            --dark-gray: #222222;
-            --font-family: 'Montserrat', sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-family);
-            background-color: var(--dark-color);
-            color: var(--light-gray);
-            line-height: 1.6;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-
-        h1, h2 {
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 15px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* --- Header & Navigation --- */
-        .main-header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
-            transition: background-color 0.3s ease;
-        }
-
-        .main-header.scrolled {
-            background-color: var(--dark-color);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 1px;
-        }
-        .logo span {
-            color: var(--primary-color);
-        }
-
-        .main-nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        .main-nav ul li {
-            margin-left: 25px;
-        }
-
-        .main-nav ul li a {
-            color: #fff;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .main-nav ul li a:hover {
-            color: var(--primary-color);
-        }
-
-        /* --- Mobile Menu --- */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
-            background: none;
-            border: none;
-        }
-
-        .hamburger-line {
-            width: 25px;
-            height: 3px;
-            background-color: #fff;
-            margin: 3px 0;
-            transition: 0.3s;
-            border-radius: 2px;
-        }
-
-        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
-
-        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: var(--dark-color);
-            z-index: 999;
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .mobile-menu.active {
-            display: flex;
-            opacity: 1;
-        }
-
-        .mobile-menu ul {
-            list-style: none;
-            text-align: center;
-        }
-
-        .mobile-menu ul li {
-            margin: 20px 0;
-        }
-
-        .mobile-menu ul li a {
-            color: #fff;
-            font-size: 1.5rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .mobile-menu ul li a:hover {
-            color: var(--primary-color);
-        }
-
-        .mobile-dropdown {
-            margin-top: 10px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .mobile-dropdown.active {
-            max-height: 200px;
-        }
-
-        .mobile-dropdown a {
-            font-size: 1.2rem !important;
-            color: var(--light-gray) !important;
-            margin: 10px 0;
-            display: block;
-            padding-left: 20px;
-        }
-
-        .mobile-dropdown a:hover {
-            color: var(--primary-color) !important;
-        }
-
-        .mobile-dropdown-toggle {
-            cursor: pointer;
-            position: relative;
-            padding-right: 30px;
-        }
-
-        .mobile-dropdown-toggle::after {
-            content: '▼';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: transform 0.3s ease;
-            font-size: 0.8rem;
-        }
-
-        .mobile-dropdown-toggle.active::after {
-            transform: translateY(-50%) rotate(180deg);
-        }
-
-        /* --- Dropdown Menu --- */
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--dark-color);
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-            border-radius: 6px;
-            border: 1px solid #333;
-            z-index: 1000;
-            padding: 10px 0;
-        }
-
-        .dropdown-content a {
-            color: var(--light-gray);
-            padding: 12px 20px;
-            text-decoration: none;
-            display: block;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .dropdown .dropdown-content a:hover {
-            background-color: var(--primary-color);
-            color: #fff !important;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown:hover > a {
-            color: var(--primary-color);
-        }
-
-        /* --- Casting Grid --- */
-        .casting-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .casting-card {
-            background-color: var(--dark-gray);
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .casting-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .casting-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .casting-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .casting-type {
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .casting-meta {
-            color: #bfbfbf;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .casting-description {
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .casting-requirements {
-            margin-bottom: 20px;
-        }
-
-        .casting-requirements h4 {
-            color: var(--primary-color);
-            font-size: 1rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .casting-requirements ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .casting-requirements li {
-            padding: 4px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .casting-requirements li::before {
-            content: "•";
-            color: var(--primary-color);
-            position: absolute;
-            left: 0;
-        }
-
-        .casting-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-
-        .casting-detail {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .casting-detail strong {
-            color: #fff;
-            margin-bottom: 3px;
-        }
-
-        .casting-detail span {
-            color: #bfbfbf;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: #fff;
-            font-weight: 600;
-            text-transform: uppercase;
-            border-radius: 6px;
-            transition: transform 0.2s ease, background-color 0.2s ease;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            background-color: #004A36;
-            transform: scale(1.05);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            margin-right: 10px;
-        }
-
-        .btn-outline:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-        }
-
-        .no-casting {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .no-casting h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #666;
-        }
-
-        /* --- Footer --- */
-        .main-footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #333;
-            margin-top: 60px;
-        }
-        
-        .social-links a {
-            margin: 0 15px;
-            font-size: 1.5rem;
-            color: var(--light-gray);
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-        
-        .copyright {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .main-header {
-                flex-direction: row;
-                padding: 15px 20px;
-                justify-content: space-between;
-            }
-            .main-nav {
-                display: none;
-            }
-            .mobile-menu-toggle {
-                display: flex;
-            }
-            .main-nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
-            }
-            .main-nav ul li {
-                margin: 0 10px;
-            }
-            .dropdown-content {
-                position: static;
-                display: none;
-                box-shadow: none;
-                border: none;
-                background-color: transparent;
-                padding: 5px 0;
-            }
-            .dropdown:hover .dropdown-content {
-                display: block;
-            }
-            .dropdown-content a {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-            .casting-grid {
-                grid-template-columns: 1fr;
-            }
-            .casting-details {
-                grid-template-columns: 1fr;
-            }
-            h2 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="main-header" id="mainHeader">
@@ -492,17 +13,15 @@
             <ul>
                 <li><a href="index.html#home">Home</a></li>
                 <li class="dropdown">
-                    <a href="index.html#films">Productions</a>
-                    <div class="dropdown-content">
-                        <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
-                        <a href="peak-cinema.html">Peak Cinema</a>
-                    </div>
+                    <a href="productions.html">Productions</a>
+                    <div class="dropdown-content" id="productions-dropdown"></div>
                 </li>
                 
                 <li><a href="index.html#meetings">Meeting & Events</a></li>
-                <li><a href="pitch-production.html">Pitch</a></li>
-                <li><a href="casting.html">Casting</a></li>
-                <li><a href="eboard.html">Eboard</a></li>               
+                <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
+                <li><a href="eboard.html">Eboard</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>               
                 <!--<li><a href="#join">Join Today</a></li>-->
             </ul>
         </nav>
@@ -518,16 +37,14 @@
         <ul>
             <li><a href="index.html#home">Home</a></li>
             <li>
-                <a href="index.html#films" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
-                <div class="mobile-dropdown" id="mobileProductionsDropdown">
-                    <a href="dont-make-me-laugh.html">Don't Make Me Laugh</a>
-                    <a href="peak-cinema.html">Peak Cinema</a>
-                </div>
+                <a href="productions.html" class="mobile-dropdown-toggle" id="mobileProductionsToggle">Productions</a>
+                <div class="mobile-dropdown" id="mobileProductionsDropdown"></div>
             </li>
             <li><a href="index.html#meetings">Meeting & Events</a></li>
-            <li><a href="pitch-production.html">Pitch</a></li>
-            <li><a href="casting.html">Casting</a></li>
+            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeECyC0KHZedYmvHft1Pq0ST2axYdVlYYx0UER_o2WCEPgA7Q/viewform" target="_blank" rel="noopener noreferrer">Pitch</a></li>
             <li><a href="eboard.html">Eboard</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="find-your-crew.html" class="nav-find-crew">Find Your Crew</a></li>
         </ul>
     </div>
 
@@ -582,7 +99,7 @@
 
                 <div>
                     <a href="mailto:casting@fps.binghamton.edu?subject=Don't Make Me Laugh Audition" class="btn">Apply Now</a>
-                    <a href="dont-make-me-laugh.html" class="btn btn-outline">View Details</a>
+                    <a href="productions.html#dont-make-me-laugh" class="btn btn-outline">View Details</a>
                 </div>
             </div>
         </div>
@@ -605,6 +122,8 @@
         <p class="copyright">&copy; 2025 FPS. All Rights Reserved.</p>
     </footer>
 
+    <script src="productions-data.js"></script>
+    <script src="nav-productions.js"></script>
     <script>
         // Header scroll effect
         window.addEventListener('scroll', function() {
